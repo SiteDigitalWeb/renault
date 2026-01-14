@@ -148,8 +148,7 @@
             font-size: 0.95rem;
         }
 
-        .form-group input,
-        .form-group select {
+        .form-group input {
             padding: 12px 15px;
             border: 2px solid #e0e0e0;
             border-radius: 6px;
@@ -159,21 +158,10 @@
             color: #000000;
         }
 
-        .form-group input:focus,
-        .form-group select:focus {
+        .form-group input:focus {
             border-color: #000000;
             outline: none;
             box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
-        }
-
-        .form-group select {
-            cursor: pointer;
-            appearance: none;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-            background-repeat: no-repeat;
-            background-position: right 12px center;
-            background-size: 16px;
-            padding-right: 40px;
         }
 
         /* BOTÓN GENERAR PDF */
@@ -213,8 +201,8 @@
 
         /* PREVISUALIZACIÓN (oculta) */
         .form-container {
-            width: 297mm;
-            height: 210mm;
+            width: 210mm;
+            height: 297mm;
             position: fixed;
             top: -10000px;
             left: -10000px;
@@ -251,102 +239,29 @@
 
         /* POSICIONES DE LOS DATOS */
         .primer-apellido {
-            top: 106mm;
-            left: 13mm;
+            top: 41mm;
+            left: 80mm;
             width: 60mm;
         }
 
         .segundo-apellido {
-            top: 106mm;
-            left: 52mm;
+            top: 41mm;
+            left: 90mm;
             width: 60mm;
+            display: none;
         }
 
         .nombres {
-            top: 106mm;
+            top: 41mm;
             left: 100mm;
             width: 80mm;
-        }
-
-        .tipo-doc {
-            top: 105mm;
-            left: 40mm;
-            width: 30mm;
             display: none;
         }
 
         .numero-doc {
-            top: 115.5mm;
-            left: 117mm;
+            top: 48mm;
+            left: 150mm;
             width: 80mm;
-        }
-
-        .direccion {
-            top: 124.5mm;
-            left: 13mm;
-            width: 100mm;
-        }
-
-        .ciudad {
-            top: 124.5mm;
-            left: 75mm;
-            width: 60mm;
-        }
-
-        .telefono {
-            top: 124.5mm;
-            left: 117mm;
-            width: 60mm;
-        }
-
-        /* POSICIONES PARA LAS X DE LOS TIPOS DE DOCUMENTO */
-        .marca-x {
-            position: absolute;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            font-size: 14pt;
-            font-weight: bold;
-            color: #000000;
-            z-index: 10;
-        }
-
-        .marca-cc {
-            top: 114mm;
-            left: 13mm;
-        }
-
-        .marca-nit {
-            top: 114mm;
-            left: 23mm;
-        }
-
-        .marca-nn {
-            top: 114mm;
-            left: 33mm;
-        }
-
-        .marca-pasaporte {
-            top: 114mm;
-            left: 44mm;
-        }
-
-        .marca-extranjeria {
-            top: 114mm;
-            left: 56mm;
-        }
-
-        .marca-tidentidad {
-            top: 114mm;
-            left: 71mm;
-        }
-
-        .marca-nuip {
-            top: 114mm;
-            left: 86mm;
-        }
-
-        .marca-diplomatico {
-            top: 114mm;
-            left: 103mm;
         }
 
         /* MENSAJES */
@@ -502,8 +417,7 @@
                 font-size: 1.3rem;
             }
             
-            .form-group input,
-            .form-group select {
+            .form-group input {
                 padding: 10px 12px;
                 font-size: 0.95rem;
             }
@@ -625,11 +539,11 @@
                     <i class="fas fa-file-contract"></i>
                 </div>
                 <div class="header-text">
-                    <h1>Formulario de Tránsito</h1>
+                    <h1>Formulario Contrato Mandato</h1>
                     <p>Sistema Renault - Complete los datos y genere el documento oficial</p>
                 </div>
             </div>
-            <a href="{{ route('renault.tramites') }}" class="btn-volver">
+            <a href="#" class="btn-volver">
                 <i class="fas fa-arrow-left"></i> Volver a Trámites
             </a>
         </div>
@@ -641,53 +555,23 @@
             <div class="form-grid">
                 @foreach($users as $user)
                 <div class="form-group">
-                    <label for="inputPrimerApellido">Primer Apellido:</label>
-                    <input type="text" value="{{ $user->name }}" id="inputPrimerApellido" placeholder="Ej: PÉREZ" required>
+                    <label for="inputPrimerApellido">Nombres y Apellidos:</label>
+                    <input type="text" value="{{ $user->name }} {{ $user->last_name }}" id="inputPrimerApellido" placeholder="Ej: PÉREZ" required>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" style="display: none;">
                     <label for="inputSegundoApellido">Segundo Apellido:</label>
                     <input type="text" value="{{ $user->last_name }}" id="inputSegundoApellido" placeholder="Ej: GÓMEZ" required>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" style="display: none;">
                     <label for="inputNombres">Nombres:</label>
-                    <input type="text" id="inputNombres" placeholder="Ej: JUAN CARLOS" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="inputTipoDoc">Tipo de Documento:</label>
-                    <select id="inputTipoDoc" required onchange="actualizarMarcasDocumento()">
-                        <option value="">Seleccione un tipo...</option>
-                        <option value="C.C.">Cédula de Ciudadanía (C.C.)</option>
-                        <option value="NIT">Número de Identificación Tributaria (NIT)</option>
-                        <option value="N.N">N.N (No Nombre)</option>
-                        <option value="PASAPORTE">Pasaporte</option>
-                        <option value="C.EXTRANJERIA">Cédula de Extranjería</option>
-                        <option value="T.IDENTIDAD">Tarjeta de Identidad</option>
-                        <option value="NUIP">Número Único de Identificación Personal (NUIP)</option>
-                        <option value="C.DIPLOMATICO">Carné Diplomático</option>
-                    </select>
+                    <input type="text" value="dario" id="inputNombres" placeholder="Ej: JUAN CARLOS" required>
                 </div>
 
                 <div class="form-group">
                     <label for="inputNumeroDoc">Número de Documento:</label>
-                    <input type="text" value="{{ $user->documento }}" id="inputNumeroDoc" placeholder="Ej: 1234567890" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="inputDireccion">Dirección:</label>
-                    <input type="text" value="{{ $user->direccion }}" id="inputDireccion" placeholder="Ej: CRA 10 # 20-30" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="inputCiudad">Ciudad:</label>
-                    <input type="text" id="inputCiudad" placeholder="Ej: BOGOTÁ" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="inputTelefono">Teléfono:</label>
-                    <input type="text" value="{{ $user->phone }}" id="inputTelefono" placeholder="Ej: 3001234567" required>
+                    <input type="text" value="{{ $user->cedula }}" id="inputNumeroDoc" placeholder="Ej: 1234567890" required>
                 </div>
                 @endforeach
             </div>
@@ -712,21 +596,7 @@
             <div class="dato primer-apellido" id="primerApellido"></div>
             <div class="dato segundo-apellido" id="segundoApellido"></div>
             <div class="dato nombres" id="nombres"></div>
-            <div class="dato tipo-doc" id="tipoDoc"></div>
             <div class="dato numero-doc" id="numeroDoc"></div>
-            <div class="dato direccion" id="direccion"></div>
-            <div class="dato ciudad" id="ciudad"></div>
-            <div class="dato telefono" id="telefono"></div>
-            
-            <!-- MARCAS DE X PARA LOS TIPOS DE DOCUMENTO -->
-            <div class="marca-x marca-cc" id="marcaCC" style="display: none;">X</div>
-            <div class="marca-x marca-nit" id="marcaNIT" style="display: none;">X</div>
-            <div class="marca-x marca-nn" id="marcaNN" style="display: none;">X</div>
-            <div class="marca-x marca-pasaporte" id="marcaPasaporte" style="display: none;">X</div>
-            <div class="marca-x marca-extranjeria" id="marcaExtranjeria" style="display: none;">X</div>
-            <div class="marca-x marca-tidentidad" id="marcaTIdentidad" style="display: none;">X</div>
-            <div class="marca-x marca-nuip" id="marcaNUIP" style="display: none;">X</div>
-            <div class="marca-x marca-diplomatico" id="marcaDiplomatico" style="display: none;">X</div>
         </div>
     </div>
 
@@ -796,86 +666,18 @@
             document.getElementById('loader').style.display = mostrar ? 'flex' : 'none';
         }
 
-        // FUNCIÓN PARA ACTUALIZAR LAS MARCAS DE DOCUMENTO
-        function actualizarMarcasDocumento() {
-            const tipoDocSeleccionado = document.getElementById('inputTipoDoc').value;
-            
-            // Ocultar todas las marcas primero
-            const todasLasMarcas = [
-                'marcaCC',
-                'marcaNIT',
-                'marcaNN',
-                'marcaPasaporte',
-                'marcaExtranjeria',
-                'marcaTIdentidad',
-                'marcaNUIP',
-                'marcaDiplomatico'
-            ];
-            
-            todasLasMarcas.forEach(id => {
-                const elemento = document.getElementById(id);
-                if (elemento) {
-                    elemento.style.display = 'none';
-                }
-            });
-            
-            // Mostrar la marca correspondiente según el tipo de documento
-            let marcaAMostrar = '';
-            
-            switch(tipoDocSeleccionado) {
-                case 'C.C.':
-                    marcaAMostrar = 'marcaCC';
-                    break;
-                case 'NIT':
-                    marcaAMostrar = 'marcaNIT';
-                    break;
-                case 'N.N':
-                    marcaAMostrar = 'marcaNN';
-                    break;
-                case 'PASAPORTE':
-                    marcaAMostrar = 'marcaPasaporte';
-                    break;
-                case 'C.EXTRANJERIA':
-                    marcaAMostrar = 'marcaExtranjeria';
-                    break;
-                case 'T.IDENTIDAD':
-                    marcaAMostrar = 'marcaTIdentidad';
-                    break;
-                case 'NUIP':
-                    marcaAMostrar = 'marcaNUIP';
-                    break;
-                case 'C.DIPLOMATICO':
-                    marcaAMostrar = 'marcaDiplomatico';
-                    break;
-            }
-            
-            if (marcaAMostrar) {
-                const elemento = document.getElementById(marcaAMostrar);
-                if (elemento) {
-                    elemento.style.display = 'block';
-                    elemento.textContent = 'X';
-                    elemento.style.color = '#000000';
-                    elemento.style.fontWeight = 'bold';
-                    elemento.style.fontSize = '14pt';
-                }
-            }
-            
-            // También actualizar el texto del tipo de documento
-            document.getElementById('tipoDoc').textContent = tipoDocSeleccionado;
-        }
-
         // FUNCIÓN PARA CARGAR IMAGEN DE FONDO
         async function cargarImagenFondo() {
             if (imagenCargada) return true;
             
             // Intentar diferentes rutas posibles
             const rutasPosibles = [
-                '/storage/formularios/transito.png',
-                '/images/transito.png',
-                '/assets/transito.png',
-                './transito.png',
-                'transito.png',
-                'public/transito.png'
+                '/storage/formularios/mandato.png',
+                '/images/mandato.png',
+                '/assets/mandato.png',
+                './mandato.png',
+                'mandato.png',
+                'public/mandato.png'
             ];
             
             const formContainer = document.getElementById('formContainer');
@@ -905,10 +707,6 @@
                         formContainer.insertBefore(imgElement, formContainer.firstChild);
                         imagenCargada = true;
                         console.log('✓ Imagen cargada desde:', ruta);
-                        
-                        // Ajustar posiciones después de cargar la imagen
-                        ajustarPosicionesMarcas();
-                        
                         return true;
                     }
                     
@@ -923,12 +721,6 @@
             crearFondoRespaldo();
             mostrarMensaje('Usando fondo predeterminado', 'warning');
             return false;
-        }
-
-        // FUNCIÓN PARA AJUSTAR POSICIONES DE LAS MARCAS
-        function ajustarPosicionesMarcas() {
-            console.log('Ajustando posiciones de las marcas...');
-            // Aquí puedes ajustar las posiciones si es necesario
         }
 
         // FUNCIÓN PARA CREAR FONDO DE RESPALDO
@@ -971,11 +763,7 @@
                 primerApellido: document.getElementById('inputPrimerApellido').value.trim().toUpperCase(),
                 segundoApellido: document.getElementById('inputSegundoApellido').value.trim().toUpperCase(),
                 nombres: document.getElementById('inputNombres').value.trim().toUpperCase(),
-                tipoDoc: document.getElementById('inputTipoDoc').value.trim().toUpperCase(),
-                numeroDoc: document.getElementById('inputNumeroDoc').value.trim(),
-                direccion: document.getElementById('inputDireccion').value.trim().toUpperCase(),
-                ciudad: document.getElementById('inputCiudad').value.trim().toUpperCase(),
-                telefono: document.getElementById('inputTelefono').value.trim()
+                numeroDoc: document.getElementById('inputNumeroDoc').value.trim()
             };
 
             // Actualizar cada campo en el formulario invisible
@@ -986,9 +774,6 @@
                 }
             });
 
-            // Actualizar las marcas de documento
-            actualizarMarcasDocumento();
-
             return datos;
         }
 
@@ -998,22 +783,12 @@
                 'inputPrimerApellido',
                 'inputSegundoApellido', 
                 'inputNombres',
-                'inputTipoDoc',
-                'inputNumeroDoc',
-                'inputDireccion',
-                'inputCiudad',
-                'inputTelefono'
+                'inputNumeroDoc'
             ];
 
             for (const campoId of campos) {
                 const elemento = document.getElementById(campoId);
-                let valor = '';
-                
-                if (elemento.type === 'select-one') {
-                    valor = elemento.value;
-                } else {
-                    valor = elemento.value.trim();
-                }
+                const valor = elemento.value.trim();
                 
                 if (!valor) {
                     elemento.focus();
@@ -1023,11 +798,7 @@
                         elemento.style.borderColor = '#e0e0e0';
                     }, 2000);
                     
-                    if (elemento.type === 'select-one') {
-                        mostrarMensaje('Por favor, seleccione el tipo de documento', 'error');
-                    } else {
-                        mostrarMensaje('Por favor, complete todos los campos', 'error');
-                    }
+                    mostrarMensaje('Por favor, complete todos los campos', 'error');
                     return false;
                 }
             }
@@ -1072,7 +843,7 @@
                 // 5. Crear PDF
                 const { jsPDF } = window.jspdf;
                 const pdf = new jsPDF({
-                    orientation: 'landscape',
+                    orientation: 'portrait',
                     unit: 'mm',
                     format: 'a4'
                 });
@@ -1096,10 +867,9 @@
                 // 6. Generar nombre del archivo
                 const fecha = new Date();
                 const primerApellido = document.getElementById('inputPrimerApellido').value.trim().toUpperCase();
-                const tipoDoc = document.getElementById('inputTipoDoc').value;
                 const numeroDoc = document.getElementById('inputNumeroDoc').value.trim();
                 
-                const nombreArchivo = `Formulario_Transito_${primerApellido}_${tipoDoc}_${numeroDoc}_${fecha.getFullYear()}${String(fecha.getMonth()+1).padStart(2,'0')}${String(fecha.getDate()).padStart(2,'0')}.pdf`;
+                const nombreArchivo = `Formulario_Transito_${primerApellido}_${numeroDoc}_${fecha.getFullYear()}${String(fecha.getMonth()+1).padStart(2,'0')}${String(fecha.getDate()).padStart(2,'0')}.pdf`;
                 
                 // 7. Guardar PDF
                 pdf.save(nombreArchivo);
@@ -1128,7 +898,7 @@
         async function generarPDFSimple() {
             const { jsPDF } = window.jspdf;
             const pdf = new jsPDF({
-                orientation: 'portrait',
+                orientation: 'landscape',
                 unit: 'mm',
                 format: 'a4'
             });
@@ -1157,11 +927,7 @@
                 ['Primer Apellido:', datos.primerApellido],
                 ['Segundo Apellido:', datos.segundoApellido],
                 ['Nombres:', datos.nombres],
-                ['Tipo Documento:', datos.tipoDoc],
-                ['Número Documento:', datos.numeroDoc],
-                ['Dirección:', datos.direccion],
-                ['Ciudad:', datos.ciudad],
-                ['Teléfono:', datos.telefono]
+                ['Número Documento:', datos.numeroDoc]
             ];
             
             campos.forEach(([label, value]) => {
@@ -1192,17 +958,9 @@
             document.getElementById('inputPrimerApellido').focus();
             
             // Permitir enviar con Enter en el último campo
-            document.getElementById('inputTelefono').addEventListener('keypress', function(e) {
+            document.getElementById('inputNumeroDoc').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
                     mostrarConfirmacion();
-                }
-            });
-            
-            // Actualizar marcas cuando cambie el tipo de documento
-            document.getElementById('inputTipoDoc').addEventListener('change', function() {
-                if (this.value) {
-                    this.style.borderColor = '#000000';
-                    actualizarMarcasDocumento();
                 }
             });
             
@@ -1210,7 +968,7 @@
             cargarImagenFondo();
             
             // Efecto de enfoque en inputs
-            document.querySelectorAll('input, select').forEach(element => {
+            document.querySelectorAll('input').forEach(element => {
                 element.addEventListener('focus', function() {
                     this.style.borderColor = '#000000';
                 });

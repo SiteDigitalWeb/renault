@@ -1,0 +1,52 @@
+<?php
+
+
+namespace Sitedigitalweb\Renault\Http;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+use Input;
+use Illuminate\Support\Facades\Hash;
+
+class RenaultController extends Controller
+{
+    /**
+     * Mostrar página de trámites
+     */
+    public function showTramites()
+    {
+        // Obtener datos del usuario desde la sesión
+        $userData = Session::get('validated_user');
+        
+        if (!$userData) {
+            return redirect()->route('home')
+                ->with('error', 'Sesión no válida. Por favor, valide su cédula nuevamente.');
+        }
+
+        return view('renault::tramites', [
+            'user' => $userData
+        ]);
+    }
+
+
+public function crear(){
+ 
+ $password = Input::get('password');
+ $remember = Input::get('_token');
+ $user = new \Sitedigitalweb\Usuario\Tenant\Usuario;    
+
+ $user->name = Input::get('name');
+ $user->last_name = Input::get('last_name');
+ $user->email = Input::get('email');
+ $user->address = Input::get('address');
+ $user->phone = Input::get('phone');;
+ $user->rol_id = Input::get('level');
+ $user->remember_token = Input::get('_token');
+ $user->password = Hash::make($password);
+ $user->remember_token = Hash::make($remember);
+ $user->save();
+ return Redirect('gestion/usuario')->with('status', 'ok_create');
+}  
+
+
+}
