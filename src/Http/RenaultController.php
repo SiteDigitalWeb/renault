@@ -40,12 +40,13 @@ public function crear(){
  $user->email = Input::get('email');
  $user->address = Input::get('address');
  $user->phone = Input::get('phone');;
+ $user->cedula = Input::get('cedula');;
  $user->rol_id = Input::get('level');
  $user->remember_token = Input::get('_token');
  $user->password = Hash::make($password);
  $user->remember_token = Hash::make($remember);
  $user->save();
- return Redirect('gestion/usuario')->with('status', 'ok_create');
+ return Redirect('renault/usuarios')->with('status', 'ok_create');
 }  
 
 

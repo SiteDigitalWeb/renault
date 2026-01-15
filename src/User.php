@@ -4,10 +4,12 @@ namespace Sitedigitalweb\Renault;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Hyn\Tenancy\Traits\UsesTenantConnection;
 
 class User extends Model
 {
     use HasFactory;
+    use UsesTenantConnection;
 
     /**
      * The attributes that are mass assignable.
@@ -54,3 +56,4 @@ class User extends Model
                    ->first();
     }
 }
+
