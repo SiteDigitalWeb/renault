@@ -577,11 +577,11 @@
         <header class="main-header">
             <div class="logo-section">
                 <!-- LOGO DE TU EMPRESA - Reemplaza con tu logo -->
-                <div class="logo-placeholder">
-                    <i class="fas fa-car"></i>
+                <div class="">
+                     <img src="/images/logo-renault-plan-rombo.png" width="50%">
                 </div>
                 <div class="logo-text">
-                    <h1>Sistema de Gestión Renault</h1>
+                    <h1>Sistema de Gestión Renault Plan Rombo</h1>
                     <p>Panel de Documentos y Trámites</p>
                 </div>
             </div>
@@ -667,11 +667,7 @@
                     <p>Formulario oficial para trámites de tránsito vehicular, licencias de conducción y renovación de SOAT.</p>
                 </div>
                 <div class="card-body">
-                    <div class="document-tags">
-                        <span class="tag">Tránsito</span>
-                        <span class="tag">Vehículos</span>
-                        <span class="tag new">Nuevo</span>
-                    </div>
+                   
                     <div class="document-info">
                         <span><i class="far fa-calendar"></i> Actualizado: 15/11/2023</span>
                         <span><i class="far fa-file"></i> PDF</span>
@@ -692,17 +688,13 @@
                     <p>Formulario para presentar la declaración de renta anual ante la DIAN. Incluye guía paso a paso.</p>
                 </div>
                 <div class="card-body">
-                    <div class="document-tags">
-                        <span class="tag">Fiscal</span>
-                        <span class="tag">DIAN</span>
-                        <span class="tag urgent">Urgente</span>
-                    </div>
+                  
                     <div class="document-info">
                         <span><i class="far fa-calendar"></i> Vence: 30/04/2024</span>
                         <span><i class="far fa-clock"></i> 15 min</span>
                     </div>
                     <a href="/renault/contrato-mandato/{{ $user['cedula'] }}" target="_blank" class="open-btn" data-document="Declaración de Renta">
-                        <i class="fas fa-external-link-alt"></i> Completar en Línea
+                        <i class="fas fa-external-link-alt"></i> Abrir Formulario
                     </a>
                 </div>
             </div>
@@ -717,17 +709,13 @@
                     <p>Documento para otorgar poderes especiales a un representante legal. Formato notarial aprobado.</p>
                 </div>
                 <div class="card-body">
-                    <div class="document-tags">
-                        <span class="tag">Legal</span>
-                        <span class="tag">Notaría</span>
-                        <span class="tag">Representación</span>
-                    </div>
+                  
                     <div class="document-info">
                         <span><i class="far fa-calendar"></i> Actualizado: 05/11/2023</span>
                         <span><i class="far fa-file"></i> DOCX</span>
                     </div>
                     <a href="https://www.ramajudicial.gov.co/poder-especial" target="_blank" class="open-btn" data-document="Poder Especial">
-                        <i class="fas fa-external-link-alt"></i> Descargar Plantilla
+                        <i class="fas fa-external-link-alt"></i> Abrir Formulario
                     </a>
                 </div>
             </div>
@@ -742,17 +730,13 @@
                     <p>Solicitud de certificado de tradición y libertad de bienes inmuebles. Validación online disponible.</p>
                 </div>
                 <div class="card-body">
-                    <div class="document-tags">
-                        <span class="tag">Inmuebles</span>
-                        <span class="tag">Propiedad</span>
-                        <span class="tag new">Nuevo</span>
-                    </div>
+                    
                     <div class="document-info">
                         <span><i class="far fa-calendar"></i> Válido por: 30 días</span>
                         <span><i class="fas fa-bolt"></i> Rápido</span>
                     </div>
-                    <a href="https://www.supernotariado.gov.co/certificado-tradicion" target="_blank" class="open-btn" data-document="Certificado de Tradición">
-                        <i class="fas fa-external-link-alt"></i> Solicitar Online
+                    <a href="/renault/prenda/{{ $user['cedula'] }}" target="_blank" class="open-btn" data-document="Certificado de Tradición">
+                        <i class="fas fa-external-link-alt"></i> Abrir Formulario
                     </a>
                 </div>
             </div>
@@ -767,17 +751,13 @@
                     <p>Renovación y obtención de licencia de conducción. Requisitos y formularios actualizados 2023.</p>
                 </div>
                 <div class="card-body">
-                    <div class="document-tags">
-                        <span class="tag">Tránsito</span>
-                        <span class="tag">Licencia</span>
-                        <span class="tag">Renovación</span>
-                    </div>
+                    
                     <div class="document-info">
                         <span><i class="far fa-calendar"></i> Actualizado: 02/11/2023</span>
                         <span><i class="far fa-file-pdf"></i> PDF</span>
                     </div>
                     <a href="#" class="open-btn" data-document="Licencia de Conducción">
-                        <i class="fas fa-external-link-alt"></i> Ver Requisitos
+                        <i class="fas fa-external-link-alt"></i> Abrir Formulario
                     </a>
                 </div>
             </div>

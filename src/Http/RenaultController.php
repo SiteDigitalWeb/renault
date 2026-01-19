@@ -37,8 +37,12 @@ public function crear(){
 
  $user->name = Input::get('name');
  $user->last_name = Input::get('last_name');
+ $user->last_name_second = Input::get('last_name_second');
+ $user->suscriptor = Input::get('suscriptor');
+ $user->tipo_persona = Input::get('tipo_persona');
  $user->email = Input::get('email');
  $user->address = Input::get('address');
+ $user->tipo_documento = Input::get('tipo_documento');
  $user->phone = Input::get('phone');;
  $user->cedula = Input::get('cedula');;
  $user->rol_id = Input::get('level');

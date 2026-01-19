@@ -21,8 +21,13 @@
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label">Apellido:</label>
+                        <label class="form-label">Primer Apellido:</label>
                         {{Form::text('last_name', '', array('class' => 'form-control','placeholder'=>'Ingrese apellido'))}}
+                      
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Segundo Apellido:</label>
+                        {{Form::text('last_name_second', '', array('class' => 'form-control','placeholder'=>'Ingrese apellido'))}}
                       
                     </div>
 
@@ -64,7 +69,42 @@
                      
                     </div>
                     
-         
+                     <div class="form-group">
+                      <label for="inputTipoDoc">Tipo de Documento:</label>
+                        {{ Form::select('tipo_documento', [
+                         '' => '-- Seleccione un tipo --',
+                         'C.C.' => 'Cédula de Ciudadanía (C.C.)',
+                         'NIT' => 'Número de Identificación Tributaria (NIT)',
+                         'N.N' => 'N.N (No Nombre)',
+                         'PASAPORTE' => 'Pasaporte',
+                         'C.EXTRANJERIA' => 'Cédula de Extranjería',
+                         'T.IDENTIDAD' => 'Tarjeta de Identidad',
+                         'NUIP' => 'Número Único de Identificación Personal (NUIP)',
+                         'C.DIPLOMATICO' => 'Carné Diplomático'
+                          ], null, [
+                         'id' => 'inputTipoDoc',
+                         'class' => 'form-control',
+                         'required' => 'required',
+                         'onchange' => 'actualizarMarcasDocumento()'
+                        ]) }}
+                </div>
+                
+                <div class="form-group">
+                 <label for="inputTipoPersona">Tipo de Persona:</label>
+                 {{ Form::select('tipo_persona', [
+                  '' => '-- Seleccione una opción --',
+                  'A NOMBRE PROPIO' => 'A NOMBRE PROPIO',
+                  'REPRESENTANTE LEGAL' => 'REPRESENTANTE LEGAL'
+                    ], null, [
+                   'id' => 'inputTipoPersona',
+                   'class' => 'form-control',
+                   'required' => 'required',
+                   'onchange' => 'actualizarMarcasSeleccion()'
+                  ]) }}
+                </div>
+
+
+
                     <div class="form-group">
                         <label class="form-label">Rol Usuario:</label>
                         {{ Form::select('level', ['' => '-- Seleccione rol --',

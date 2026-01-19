@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Formulario de Tránsito - Sistema Renault</title>
+    <title>Formulario Contrato Prenda - Sistema Renault</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -211,14 +211,18 @@
             box-shadow: none;
         }
 
-        /* PREVISUALIZACIÓN (oculta) */
+        /* PREVISUALIZACIÓN PARA LAS DOS PÁGINAS (oculta) */
         .form-container {
-            width: 297mm;
-            height: 210mm;
+            width: 210mm;
+            height: 297mm;
             position: fixed;
             top: -10000px;
             left: -10000px;
             background: white;
+        }
+
+        .form-container.pagina2 {
+            top: -20000px;
         }
 
         .imagen-fondo {
@@ -238,115 +242,98 @@
         .dato {
             position: absolute;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            font-size: 9pt;
+            font-size: 7pt;
             color: #000000;
             text-transform: uppercase;
             line-height: 1.2;
             overflow: hidden;
             white-space: nowrap;
-            font-weight: 600;
+            font-weight: 200;
             background: transparent;
             text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
         }
 
-        /* POSICIONES DE LOS DATOS */
-        .primer-apellido {
-            top: 106mm;
-            left: 13mm;
-            width: 60mm;
-        }
-
-        .segundo-apellido {
-            top: 106mm;
-            left: 52mm;
-            width: 60mm;
-        }
-
-        .nombres {
-            top: 106mm;
-            left: 100mm;
+        /* POSICIONES DE LOS DATOS - PÁGINA 1 (SOLO NOMBRES, DIRECCIÓN, CIUDAD, EMAIL) */
+        .nombres-p1 {
+            top: 51mm;
+            left: 110mm;
             width: 80mm;
+            font-size: 7pt;
         }
 
-        .tipo-doc {
-            top: 105mm;
-            left: 40mm;
-            width: 30mm;
-            display: none;
+        .direccion-p1 {
+            top: 225mm;
+            left: 27mm;
+            width: 120mm;
+            font-size: 8pt;
         }
 
-        .numero-doc {
-            top: 115.5mm;
-            left: 117mm;
+        .ciudad-p1 {
+            top: 220mm;
+            left: 85mm;
             width: 80mm;
+            font-size: 8pt;
         }
 
-        .direccion {
-            top: 124.5mm;
-            left: 13mm;
-            width: 100mm;
+        .email-p1 {
+            top: 225mm;
+            left: 102mm;
+            width: 120mm;
+            font-size: 8pt;
         }
 
-        .ciudad {
-            top: 124.5mm;
-            left: 75mm;
-            width: 60mm;
+        /* CÉDULA P1 OCULTA - ELIMINADA */
+        .cedula-p1 {
+            display: none !important;
         }
 
-        .telefono {
-            top: 124.5mm;
-            left: 117mm;
-            width: 60mm;
-        }
-
-        /* POSICIONES PARA LAS X DE LOS TIPOS DE DOCUMENTO */
-        .marca-x {
+        /* MARCA DE SELECCIÓN DE TIPO DE PERSONA - PÁGINA 1 */
+        .marca-seleccion {
             position: absolute;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            font-size: 14pt;
-            font-weight: bold;
+            font-family: 'Arial', sans-serif;
+            font-size: 10pt;
+            font-weight: 100;
             color: #000000;
             z-index: 10;
         }
 
-        .marca-cc {
-            top: 114mm;
-            left: 13mm;
+        /* Posición para "A NOMBRE PROPIO" - AJUSTA ESTOS VALORES SEGÚN TU FORMULARIO */
+        .marca-nombre-propio {
+            top: 59mm;  /* Ajusta esta posición vertical */
+            left: 33mm; /* Ajusta esta posición horizontal */
         }
 
-        .marca-nit {
-            top: 114mm;
-            left: 23mm;
+        /* Posición para "REPRESENTANTE LEGAL" - AJUSTA ESTOS VALORES SEGÚN TU FORMULARIO */
+        .marca-representante-legal {
+            top: 59mm;   /* Ajusta esta posición vertical */
+            left: 67mm; /* Ajusta esta posición horizontal */
         }
 
-        .marca-nn {
-            top: 114mm;
-            left: 33mm;
+        /* POSICIONES DE LOS DATOS - PÁGINA 2 (SOLO CÉDULA) */
+        .cedula-p2 {
+            top: 256mm;
+            left: 88mm;
+            width: 80mm;
+            font-size: 9pt;
         }
 
-        .marca-pasaporte {
-            top: 114mm;
-            left: 44mm;
+        /* MARCAS DE SELECCIÓN PARA PÁGINA 2 - OCULTAS */
+        .marca-seleccion-p2,
+        .marca-nombre-propio-p2,
+        .marca-representante-legal-p2 {
+            display: none !important;
         }
 
-        .marca-extranjeria {
-            top: 114mm;
-            left: 56mm;
-        }
-
-        .marca-tidentidad {
-            top: 114mm;
-            left: 71mm;
-        }
-
-        .marca-nuip {
-            top: 114mm;
-            left: 86mm;
-        }
-
-        .marca-diplomatico {
-            top: 114mm;
-            left: 103mm;
+        /* Ocultar los demás campos en página 2 ya que no se usarán */
+        .primer-apellido-p2,
+        .segundo-apellido-p2,
+        .nombres-p2,
+        .direccion-p2,
+        .ciudad-p2,
+        .email-p2,
+        .fecha-p2,
+        .tipo-persona-p2 {
+            display: none;
         }
 
         /* MENSAJES */
@@ -605,7 +592,7 @@
     <!-- LOADER -->
     <div class="loader" id="loader">
         <div class="spinner"></div>
-        <p>Generando documento PDF...</p>
+        <p>Generando contrato PDF de 2 páginas...</p>
     </div>
 
     <!-- MENSAJE -->
@@ -625,8 +612,8 @@
                     <i class="fas fa-file-contract"></i>
                 </div>
                 <div class="header-text">
-                    <h1>Formulario de Tránsito</h1>
-                    <p>Sistema Renault - Complete los datos y genere el documento oficial</p>
+                    <h1>Formulario Contrato Prenda</h1>
+                    <p>Sistema Renault - Complete los datos y genere el contrato oficial (2 páginas)</p>
                 </div>
             </div>
             <a href="{{ route('renault.tramites') }}" class="btn-volver">
@@ -636,58 +623,56 @@
 
         <!-- FORMULARIO DE DATOS -->
         <div class="formulario-datos">
-            <h2>Datos del Propietario</h2>
+            <h2>Datos del Deudor Prendario</h2>
             
             <div class="form-grid">
                 @foreach($users as $user)
-                <div class="form-group">
-                    <label for="inputPrimerApellido">Primer Apellido:</label>
-                    <input type="text" value="{{ $user->last_name }}" id="inputPrimerApellido" placeholder="Ej: PÉREZ" required>
+                <!-- Campo Único: Apellidos y Nombres Completos -->
+                <div class="form-group" style="grid-column: span 2;">
+                    <label for="inputNombresCompletos">Apellidos y Nombres Completos:</label>
+                    <input type="text" value=" {{ $user->name }} {{ $user->last_name }} {{ $user->last_name_second }}" id="inputNombresCompletos" placeholder="Ej: PÉREZ GÓMEZ JUAN CARLOS" required>
                 </div>
 
+                <!-- Tipo de Persona (Nuevo campo) -->
                 <div class="form-group">
-                    <label for="inputSegundoApellido">Segundo Apellido:</label>
-                    <input type="text" value="{{ $user->last_name_second }}" id="inputSegundoApellido" placeholder="Ej: GÓMEZ" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="inputNombres">Nombres:</label>
-                    <input type="text" value="{{ $user->name }}" id="inputNombres" placeholder="Ej: JUAN CARLOS" required>
-                </div>
-
-                <div class="form-group">
-    <label for="inputTipoDoc">Tipo de Documento:</label>
-    <select id="inputTipoDoc" name="tipo_documento" class="form-control" required onchange="actualizarMarcasDocumento()">
-        <option value="">-- Seleccione un tipo --</option>
-        <option value="C.C." {{ old('tipo_documento', $user->tipo_documento ?? '') == 'C.C.' ? 'selected' : '' }}>Cédula de Ciudadanía (C.C.)</option>
-        <option value="NIT" {{ old('tipo_documento', $user->tipo_documento ?? '') == 'NIT' ? 'selected' : '' }}>Número de Identificación Tributaria (NIT)</option>
-        <option value="N.N" {{ old('tipo_documento', $user->tipo_documento ?? '') == 'N.N' ? 'selected' : '' }}>N.N (No Nombre)</option>
-        <option value="PASAPORTE" {{ old('tipo_documento', $user->tipo_documento ?? '') == 'PASAPORTE' ? 'selected' : '' }}>Pasaporte</option>
-        <option value="C.EXTRANJERIA" {{ old('tipo_documento', $user->tipo_documento ?? '') == 'C.EXTRANJERIA' ? 'selected' : '' }}>Cédula de Extranjería</option>
-        <option value="T.IDENTIDAD" {{ old('tipo_documento', $user->tipo_documento ?? '') == 'T.IDENTIDAD' ? 'selected' : '' }}>Tarjeta de Identidad</option>
-        <option value="NUIP" {{ old('tipo_documento', $user->tipo_documento ?? '') == 'NUIP' ? 'selected' : '' }}>Número Único de Identificación Personal (NUIP)</option>
-        <option value="C.DIPLOMATICO" {{ old('tipo_documento', $user->tipo_documento ?? '') == 'C.DIPLOMATICO' ? 'selected' : '' }}>Carné Diplomático</option>
+    <label for="inputTipoPersona">Tipo de Persona:</label>
+    <select id="inputTipoPersona" required onchange="actualizarMarcasSeleccion()"  disabled>
+        <option value="">Seleccione una opción...</option>
+        <option value="A NOMBRE PROPIO" {{ $user->tipo_persona == 'A NOMBRE PROPIO' ? 'selected' : '' }}>A NOMBRE PROPIO</option>
+        <option value="REPRESENTANTE LEGAL" {{ $user->tipo_persona == 'REPRESENTANTE LEGAL' ? 'selected' : '' }}>REPRESENTANTE LEGAL</option>
     </select>
 </div>
 
+                <!-- Número de Documento -->
                 <div class="form-group">
-                    <label for="inputNumeroDoc">Número de Documento:</label>
-                    <input type="text" value="{{ $user->cedula }}" id="inputNumeroDoc" placeholder="Ej: 1234567890" required>
+                    <label for="inputCedula">Número de Documento:</label>
+                    <input type="text" value="{{ $user->cedula }}" id="inputCedula" placeholder="Ej: 1234567890" required>
                 </div>
 
+                <!-- Dirección -->
                 <div class="form-group">
                     <label for="inputDireccion">Dirección:</label>
-                    <input type="text" value="{{ $user->address }}" id="inputDireccion" placeholder="Ej: CRA 10 # 20-30" required>
+                    <input type="text" value="{{ $user->address }}" id="inputDireccion" placeholder="Ej: CRA 45 # 26-85" required>
                 </div>
 
+                <!-- Ciudad -->
                 <div class="form-group">
                     <label for="inputCiudad">Ciudad:</label>
-                    <input type="text" id="inputCiudad" placeholder="Ej: BOGOTÁ" required>
+                    <input type="text" id="inputCiudad" value="Bogotá, D.C." required>
                 </div>
 
+                <!-- Email -->
                 <div class="form-group">
-                    <label for="inputTelefono">Teléfono:</label>
-                    <input type="text" value="{{ $user->phone }}" id="inputTelefono" placeholder="Ej: 3001234567" required>
+                    <label for="inputEmail">Correo Electrónico:</label>
+                    <input type="email" value="{{ $user->email }}" id="inputEmail" placeholder="Ej: correo@ejemplo.com">
+                </div>
+
+                <!-- Campos ocultos para compatibilidad -->
+                <div style="display: none;">
+                    <input type="text" id="inputPrimerApellido" value="{{ $user->last_name }}">
+                    <input type="text" id="inputSegundoApellido">
+                    <input type="text" id="inputNombres" value="{{ $user->name }}">
+                    <input type="text" id="inputTipoDoc">
                 </div>
                 @endforeach
             </div>
@@ -695,38 +680,54 @@
 
         <!-- BOTÓN PARA GENERAR PDF -->
         <button class="btn-generar" onclick="mostrarConfirmacion()">
-            <i class="fas fa-file-pdf"></i> Generar Documento PDF
+            <i class="fas fa-file-pdf"></i> Generar Contrato Prenda (2 páginas)
         </button>
 
         <!-- FOOTER -->
         <div class="form-footer">
-            <p>Sistema de Gestión Renault &copy; {{ date('Y') }} | Formularios Oficiales de Tránsito</p>
+            <p>Sistema de Gestión Renault &copy; {{ date('Y') }} | Contrato Prenda sin Tenencia</p>
             <p>Este documento es válido para trámites oficiales según la normativa vigente</p>
         </div>
     </div>
 
-    <!-- FORMULARIO INVISIBLE PARA LA CONVERSIÓN A PDF -->
-    <div class="form-container" id="formContainer">
+    <!-- PÁGINA 1 - PRENDA 1 (INVISIBLE PARA LA CONVERSIÓN A PDF) -->
+    <div class="form-container" id="formContainerPagina1">
         <div class="datos-container">
-            <!-- DATOS DEL PROPIETARIO -->
-            <div class="dato primer-apellido" id="primerApellido"></div>
-            <div class="dato segundo-apellido" id="segundoApellido"></div>
-            <div class="dato nombres" id="nombres"></div>
-            <div class="dato tipo-doc" id="tipoDoc"></div>
-            <div class="dato numero-doc" id="numeroDoc"></div>
-            <div class="dato direccion" id="direccion"></div>
-            <div class="dato ciudad" id="ciudad"></div>
-            <div class="dato telefono" id="telefono"></div>
+            <!-- DATOS EN PÁGINA 1: Nombres, dirección, ciudad, correo -->
+            <div class="dato nombres-p1" id="nombresP1"></div>
+            <div class="dato direccion-p1" id="direccionP1"></div>
+            <div class="dato ciudad-p1" id="ciudadP1"></div>
+            <div class="dato email-p1" id="emailP1"></div>
             
-            <!-- MARCAS DE X PARA LOS TIPOS DE DOCUMENTO -->
-            <div class="marca-x marca-cc" id="marcaCC" style="display: none;">X</div>
-            <div class="marca-x marca-nit" id="marcaNIT" style="display: none;">X</div>
-            <div class="marca-x marca-nn" id="marcaNN" style="display: none;">X</div>
-            <div class="marca-x marca-pasaporte" id="marcaPasaporte" style="display: none;">X</div>
-            <div class="marca-x marca-extranjeria" id="marcaExtranjeria" style="display: none;">X</div>
-            <div class="marca-x marca-tidentidad" id="marcaTIdentidad" style="display: none;">X</div>
-            <div class="marca-x marca-nuip" id="marcaNUIP" style="display: none;">X</div>
-            <div class="marca-x marca-diplomatico" id="marcaDiplomatico" style="display: none;">X</div>
+            <!-- MARCAS DE SELECCIÓN PARA TIPO DE PERSONA - PÁGINA 1 (Solo "X") -->
+            <div class="marca-seleccion marca-nombre-propio" id="marcaNombrePropioP1" style="display: none;">X</div>
+            <div class="marca-seleccion marca-representante-legal" id="marcaRepresentanteLegalP1" style="display: none;">X</div>
+            
+            <!-- Campos ocultos para compatibilidad (no se usarán) -->
+            <div style="display: none;">
+                <div class="dato primer-apellido-p1" id="primerApellidoP1"></div>
+                <div class="dato segundo-apellido-p1" id="segundoApellidoP1"></div>
+                <div class="dato fecha-p1" id="fechaP1"></div>
+                <!-- Cédula oculta en página 1 -->
+                <div class="dato cedula-p1" id="cedulaP1"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PÁGINA 2 - PRENDA 2 (INVISIBLE PARA LA CONVERSIÓN A PDF) -->
+    <div class="form-container pagina2" id="formContainerPagina2">
+        <div class="datos-container">
+            <!-- DATOS EN PÁGINA 2: Solo cédula -->
+            <div class="dato cedula-p2" id="cedulaP2"></div>
+            
+            <!-- Los demás campos están ocultos por CSS -->
+            <div class="dato primer-apellido-p2" id="primerApellidoP2"></div>
+            <div class="dato segundo-apellido-p2" id="segundoApellidoP2"></div>
+            <div class="dato nombres-p2" id="nombresP2"></div>
+            <div class="dato direccion-p2" id="direccionP2"></div>
+            <div class="dato ciudad-p2" id="ciudadP2"></div>
+            <div class="dato email-p2" id="emailP2"></div>
+            <div class="dato tipo-persona-p2" id="tipoPersonaP2"></div>
         </div>
     </div>
 
@@ -734,7 +735,7 @@
     <div class="modal" id="confirmModal">
         <div class="modal-content">
             <h3><i class="fas fa-file-pdf"></i> Confirmar Generación de PDF</h3>
-            <p id="modalMessage">Se generará un documento PDF con los datos ingresados. ¿Desea continuar?</p>
+            <p id="modalMessage">Se generará un contrato PDF de 2 páginas con los datos ingresados. ¿Desea continuar?</p>
             <div class="modal-buttons">
                 <button class="modal-btn confirm" onclick="generarPDF()">Sí, Generar PDF</button>
                 <button class="modal-btn cancel" onclick="cerrarModal()">Cancelar</button>
@@ -744,7 +745,33 @@
 
     <script>
         // VARIABLES GLOBALES
-        let imagenCargada = false;
+        let imagenesCargadas = {
+            prenda1: false,
+            prenda2: false
+        };
+
+        // FUNCIÓN PARA ACTUALIZAR LAS MARCAS DE SELECCIÓN (LAS "X") - SOLO PÁGINA 1
+        function actualizarMarcasSeleccion() {
+            const tipoPersona = document.getElementById('inputTipoPersona').value;
+            
+            // Obtener referencias a las marcas en página 1
+            const marcaNombrePropioP1 = document.getElementById('marcaNombrePropioP1');
+            const marcaRepresentanteLegalP1 = document.getElementById('marcaRepresentanteLegalP1');
+            
+            // Ocultar todas las marcas primero
+            marcaNombrePropioP1.style.display = 'none';
+            marcaRepresentanteLegalP1.style.display = 'none';
+            
+            // Mostrar la marca correspondiente según la selección (solo página 1)
+            if (tipoPersona === 'A NOMBRE PROPIO') {
+                marcaNombrePropioP1.style.display = 'block';
+            } else if (tipoPersona === 'REPRESENTANTE LEGAL') {
+                marcaRepresentanteLegalP1.style.display = 'block';
+            }
+            
+            // NOTA: No mostramos el texto del tipo de persona, solo las "X" en página 1
+            // NOTA: No mostramos "X" en página 2 como solicitaste
+        }
 
         // FUNCIONES DEL MODAL
         function mostrarConfirmacion() {
@@ -796,89 +823,22 @@
             document.getElementById('loader').style.display = mostrar ? 'flex' : 'none';
         }
 
-        // FUNCIÓN PARA ACTUALIZAR LAS MARCAS DE DOCUMENTO
-        function actualizarMarcasDocumento() {
-            const tipoDocSeleccionado = document.getElementById('inputTipoDoc').value;
+        // FUNCIÓN PARA CARGAR IMAGEN DE FONDO DE UNA PÁGINA
+        async function cargarImagenFondoPagina(paginaId, nombreImagen) {
+            const formContainer = document.getElementById(paginaId);
+            const clave = paginaId === 'formContainerPagina1' ? 'prenda1' : 'prenda2';
             
-            // Ocultar todas las marcas primero
-            const todasLasMarcas = [
-                'marcaCC',
-                'marcaNIT',
-                'marcaNN',
-                'marcaPasaporte',
-                'marcaExtranjeria',
-                'marcaTIdentidad',
-                'marcaNUIP',
-                'marcaDiplomatico'
-            ];
-            
-            todasLasMarcas.forEach(id => {
-                const elemento = document.getElementById(id);
-                if (elemento) {
-                    elemento.style.display = 'none';
-                }
-            });
-            
-            // Mostrar la marca correspondiente según el tipo de documento
-            let marcaAMostrar = '';
-            
-            switch(tipoDocSeleccionado) {
-                case 'C.C.':
-                    marcaAMostrar = 'marcaCC';
-                    break;
-                case 'NIT':
-                    marcaAMostrar = 'marcaNIT';
-                    break;
-                case 'N.N':
-                    marcaAMostrar = 'marcaNN';
-                    break;
-                case 'PASAPORTE':
-                    marcaAMostrar = 'marcaPasaporte';
-                    break;
-                case 'C.EXTRANJERIA':
-                    marcaAMostrar = 'marcaExtranjeria';
-                    break;
-                case 'T.IDENTIDAD':
-                    marcaAMostrar = 'marcaTIdentidad';
-                    break;
-                case 'NUIP':
-                    marcaAMostrar = 'marcaNUIP';
-                    break;
-                case 'C.DIPLOMATICO':
-                    marcaAMostrar = 'marcaDiplomatico';
-                    break;
-            }
-            
-            if (marcaAMostrar) {
-                const elemento = document.getElementById(marcaAMostrar);
-                if (elemento) {
-                    elemento.style.display = 'block';
-                    elemento.textContent = 'X';
-                    elemento.style.color = '#000000';
-                    elemento.style.fontWeight = 'bold';
-                    elemento.style.fontSize = '14pt';
-                }
-            }
-            
-            // También actualizar el texto del tipo de documento
-            document.getElementById('tipoDoc').textContent = tipoDocSeleccionado;
-        }
-
-        // FUNCIÓN PARA CARGAR IMAGEN DE FONDO
-        async function cargarImagenFondo() {
-            if (imagenCargada) return true;
+            if (imagenesCargadas[clave]) return true;
             
             // Intentar diferentes rutas posibles
             const rutasPosibles = [
-                '/storage/formularios/transito.png',
-                '/images/transito.png',
-                '/assets/transito.png',
-                './transito.png',
-                'transito.png',
-                'public/transito.png'
+                `/storage/formularios/${nombreImagen}`,
+                `/images/${nombreImagen}`,
+                `/assets/${nombreImagen}`,
+                `./${nombreImagen}`,
+                `${nombreImagen}`,
+                `public/${nombreImagen}`
             ];
-            
-            const formContainer = document.getElementById('formContainer');
             
             for (const ruta of rutasPosibles) {
                 try {
@@ -889,7 +849,7 @@
                     // Crear nueva imagen
                     const imgElement = document.createElement('img');
                     imgElement.className = 'imagen-fondo';
-                    imgElement.alt = 'Fondo del formulario';
+                    imgElement.alt = 'Fondo del contrato';
                     
                     // Intentar cargar la imagen
                     const cargada = await new Promise((resolve) => {
@@ -903,12 +863,8 @@
                     
                     if (cargada) {
                         formContainer.insertBefore(imgElement, formContainer.firstChild);
-                        imagenCargada = true;
-                        console.log('✓ Imagen cargada desde:', ruta);
-                        
-                        // Ajustar posiciones después de cargar la imagen
-                        ajustarPosicionesMarcas();
-                        
+                        imagenesCargadas[clave] = true;
+                        console.log(`✓ ${nombreImagen} cargada desde:`, ruta);
                         return true;
                     }
                     
@@ -919,22 +875,26 @@
             }
             
             // Si ninguna ruta funcionó, crear un fondo de respaldo
-            console.warn('No se pudo cargar ninguna imagen de fondo');
-            crearFondoRespaldo();
-            mostrarMensaje('Usando fondo predeterminado', 'warning');
+            console.warn(`No se pudo cargar la imagen: ${nombreImagen}`);
+            crearFondoRespaldo(formContainer, `Página ${paginaId === 'formContainerPagina1' ? '1' : '2'}`);
             return false;
         }
 
-        // FUNCIÓN PARA AJUSTAR POSICIONES DE LAS MARCAS
-        function ajustarPosicionesMarcas() {
-            console.log('Ajustando posiciones de las marcas...');
-            // Aquí puedes ajustar las posiciones si es necesario
+        // FUNCIÓN PARA CARGAR AMBAS IMÁGENES
+        async function cargarImagenesFondo() {
+            // Cargar imagen para página 1
+            await cargarImagenFondoPagina('formContainerPagina1', 'prenda1.png');
+            
+            // Cargar imagen para página 2
+            await cargarImagenFondoPagina('formContainerPagina2', 'prenda2.png');
+            
+            if (!imagenesCargadas.prenda1 || !imagenesCargadas.prenda2) {
+                mostrarMensaje('⚠️ Algunas imágenes no se cargaron, usando fondo predeterminado', 'warning');
+            }
         }
 
         // FUNCIÓN PARA CREAR FONDO DE RESPALDO
-        function crearFondoRespaldo() {
-            const formContainer = document.getElementById('formContainer');
-            
+        function crearFondoRespaldo(contenedor, titulo) {
             const fondoDiv = document.createElement('div');
             fondoDiv.style.cssText = `
                 position: absolute;
@@ -955,54 +915,103 @@
             
             fondoDiv.innerHTML = `
                 <div style="font-size: 28px; font-weight: bold; margin-bottom: 20px; text-align: center;">
-                    FORMULARIO DE TRÁNSITO
+                    CONTRATO DE PRENDA
                 </div>
                 <div style="font-size: 16px; text-align: center; color: #666666;">
-                    Sistema Renault - Documento Oficial
+                    ${titulo}
+                </div>
+                <div style="margin-top: 20px; font-size: 14px; color: #999999;">
+                    (Imagen no disponible - usando fondo predeterminado)
                 </div>
             `;
             
-            formContainer.insertBefore(fondoDiv, formContainer.firstChild);
+            contenedor.insertBefore(fondoDiv, contenedor.firstChild);
         }
 
-        // FUNCIÓN PARA ACTUALIZAR LOS DATOS EN EL FORMULARIO INVISIBLE
+        // FUNCIÓN PARA SEPARAR NOMBRES COMPLETOS
+        function separarNombresCompletos(nombresCompletos) {
+            const partes = nombresCompletos.trim().split(' ');
+            if (partes.length >= 2) {
+                // Tomar el primer elemento como primer apellido
+                const primerApellido = partes[0] || '';
+                // Tomar el segundo elemento como segundo apellido (si existe)
+                const segundoApellido = partes.length > 1 ? partes[1] : '';
+                // El resto son nombres
+                const nombres = partes.slice(2).join(' ') || '';
+                
+                return {
+                    primerApellido: primerApellido.toUpperCase(),
+                    segundoApellido: segundoApellido.toUpperCase(),
+                    nombres: nombres.toUpperCase(),
+                    nombresCompletos: nombresCompletos.toUpperCase()
+                };
+            } else {
+                return {
+                    primerApellido: nombresCompletos.toUpperCase(),
+                    segundoApellido: '',
+                    nombres: '',
+                    nombresCompletos: nombresCompletos.toUpperCase()
+                };
+            }
+        }
+
+        // FUNCIÓN PARA ACTUALIZAR LOS DATOS EN AMBAS PÁGINAS
         function actualizarDatosPDF() {
+            // Obtener datos del formulario
             const datos = {
-                primerApellido: document.getElementById('inputPrimerApellido').value.trim().toUpperCase(),
-                segundoApellido: document.getElementById('inputSegundoApellido').value.trim().toUpperCase(),
-                nombres: document.getElementById('inputNombres').value.trim().toUpperCase(),
-                tipoDoc: document.getElementById('inputTipoDoc').value.trim().toUpperCase(),
-                numeroDoc: document.getElementById('inputNumeroDoc').value.trim(),
+                nombresCompletos: document.getElementById('inputNombresCompletos').value.trim().toUpperCase(),
+                tipoPersona: document.getElementById('inputTipoPersona').value.trim().toUpperCase(),
+                cedula: document.getElementById('inputCedula').value.trim(),
                 direccion: document.getElementById('inputDireccion').value.trim().toUpperCase(),
                 ciudad: document.getElementById('inputCiudad').value.trim().toUpperCase(),
-                telefono: document.getElementById('inputTelefono').value.trim()
+                email: document.getElementById('inputEmail').value.trim().toUpperCase()
             };
 
-            // Actualizar cada campo en el formulario invisible
-            Object.keys(datos).forEach(campo => {
-                const elemento = document.getElementById(campo);
-                if (elemento) {
-                    elemento.textContent = datos[campo] || '';
-                }
-            });
+            // Separar nombres completos para compatibilidad
+            const nombresSeparados = separarNombresCompletos(datos.nombresCompletos);
 
-            // Actualizar las marcas de documento
-            actualizarMarcasDocumento();
+            // Actualizar PÁGINA 1: Nombres, dirección, ciudad, correo (NO cédula)
+            document.getElementById('nombresP1').textContent = datos.nombresCompletos || '';
+            document.getElementById('direccionP1').textContent = datos.direccion || '';
+            document.getElementById('ciudadP1').textContent = datos.ciudad || '';
+            document.getElementById('emailP1').textContent = datos.email || '';
+            
+            // Cédula OCULTA en página 1
+            document.getElementById('cedulaP1').textContent = ''; // Vacío
 
-            return datos;
+            // Actualizar las marcas de selección en página 1 (solo "X")
+            actualizarMarcasSeleccion();
+
+            // Campos ocultos para compatibilidad
+            document.getElementById('primerApellidoP1').textContent = nombresSeparados.primerApellido || '';
+            document.getElementById('segundoApellidoP1').textContent = nombresSeparados.segundoApellido || '';
+
+            // Actualizar PÁGINA 2: Solo cédula (NO "X")
+            document.getElementById('cedulaP2').textContent = datos.cedula || '';
+            
+            // Los demás campos en página 2 están ocultos por CSS
+            document.getElementById('primerApellidoP2').textContent = nombresSeparados.primerApellido || '';
+            document.getElementById('segundoApellidoP2').textContent = nombresSeparados.segundoApellido || '';
+            document.getElementById('nombresP2').textContent = nombresSeparados.nombres || '';
+            document.getElementById('direccionP2').textContent = datos.direccion || '';
+            document.getElementById('ciudadP2').textContent = datos.ciudad || '';
+            document.getElementById('emailP2').textContent = datos.email || '';
+            document.getElementById('tipoPersonaP2').textContent = datos.tipoPersona || '';
+
+            return {
+                ...datos,
+                ...nombresSeparados
+            };
         }
 
         // FUNCIÓN PARA VALIDAR FORMULARIO
         function validarFormulario() {
             const campos = [
-                'inputPrimerApellido',
-                'inputSegundoApellido', 
-                'inputNombres',
-                'inputTipoDoc',
-                'inputNumeroDoc',
+                'inputNombresCompletos',
+                'inputTipoPersona',
+                'inputCedula',
                 'inputDireccion',
-                'inputCiudad',
-                'inputTelefono'
+                'inputCiudad'
             ];
 
             for (const campoId of campos) {
@@ -1024,9 +1033,11 @@
                     }, 2000);
                     
                     if (elemento.type === 'select-one') {
-                        mostrarMensaje('Por favor, seleccione el tipo de documento', 'error');
+                        mostrarMensaje('Por favor, seleccione el tipo de persona', 'error');
+                    } else if (campoId === 'inputNombresCompletos') {
+                        mostrarMensaje('Por favor, ingrese apellidos y nombres completos', 'error');
                     } else {
-                        mostrarMensaje('Por favor, complete todos los campos', 'error');
+                        mostrarMensaje('Por favor, complete todos los campos obligatorios', 'error');
                     }
                     return false;
                 }
@@ -1035,7 +1046,23 @@
             return true;
         }
 
-        // FUNCIÓN PRINCIPAL PARA GENERAR PDF
+        // FUNCIÓN PARA CAPTURAR UNA PÁGINA COMO IMAGEN
+        async function capturarPagina(paginaId) {
+            const pagina = document.getElementById(paginaId);
+            
+            const canvas = await html2canvas(pagina, {
+                scale: 2,
+                useCORS: true,
+                backgroundColor: '#ffffff',
+                logging: false,
+                width: pagina.offsetWidth,
+                height: pagina.offsetHeight
+            });
+            
+            return canvas.toDataURL('image/jpeg', 0.95);
+        }
+
+        // FUNCIÓN PRINCIPAL PARA GENERAR PDF CON 2 PÁGINAS
         async function generarPDF() {
             cerrarModal();
             
@@ -1048,31 +1075,19 @@
             mostrarLoader(true);
 
             try {
-                // 1. Actualizar datos en el formulario invisible
-                actualizarDatosPDF();
+                // 1. Actualizar datos en ambas páginas
+                const datos = actualizarDatosPDF();
                 
-                // 2. Cargar imagen de fondo
-                await cargarImagenFondo();
+                // 2. Cargar imágenes de fondo (si no están cargadas)
+                await cargarImagenesFondo();
                 
                 // 3. Esperar un momento para que todo se renderice
                 await new Promise(resolve => setTimeout(resolve, 500));
                 
-                // 4. Capturar el formulario como imagen
-                const formulario = document.getElementById('formContainer');
-                
-                const canvas = await html2canvas(formulario, {
-                    scale: 2,
-                    useCORS: true,
-                    backgroundColor: '#ffffff',
-                    logging: false,
-                    width: formulario.offsetWidth,
-                    height: formulario.offsetHeight
-                });
-                
-                // 5. Crear PDF
+                // 4. Crear PDF
                 const { jsPDF } = window.jspdf;
                 const pdf = new jsPDF({
-                    orientation: 'landscape',
+                    orientation: 'portrait',
                     unit: 'mm',
                     format: 'a4'
                 });
@@ -1080,36 +1095,44 @@
                 const pageWidth = pdf.internal.pageSize.getWidth();
                 const pageHeight = pdf.internal.pageSize.getHeight();
                 
+                // 5. Capturar y agregar PÁGINA 1
+                const imgData1 = await capturarPagina('formContainerPagina1');
+                
                 // Calcular dimensiones para que quepa perfectamente
-                const imgWidth = pageWidth;
-                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                let imgWidth1 = pageWidth;
+                let imgHeight1 = pageHeight;
+                let y1 = 0;
                 
-                let y = 0;
-                if (imgHeight < pageHeight) {
-                    y = (pageHeight - imgHeight) / 2;
-                }
+                // Agregar imagen de la página 1 al PDF
+                pdf.addImage(imgData1, 'JPEG', 0, y1, imgWidth1, imgHeight1);
                 
-                // Agregar imagen al PDF
-                const imgData = canvas.toDataURL('image/jpeg', 0.95);
-                pdf.addImage(imgData, 'JPEG', 0, y, imgWidth, imgHeight);
+                // 6. Agregar nueva página y capturar PÁGINA 2
+                pdf.addPage();
+                const imgData2 = await capturarPagina('formContainerPagina2');
                 
-                // 6. Generar nombre del archivo
+                let imgWidth2 = pageWidth;
+                let imgHeight2 = pageHeight;
+                let y2 = 0;
+                
+                // Agregar imagen de la página 2 al PDF
+                pdf.addImage(imgData2, 'JPEG', 0, y2, imgWidth2, imgHeight2);
+                
+                // 7. Generar nombre del archivo
                 const fecha = new Date();
-                const primerApellido = document.getElementById('inputPrimerApellido').value.trim().toUpperCase();
-                const tipoDoc = document.getElementById('inputTipoDoc').value;
-                const numeroDoc = document.getElementById('inputNumeroDoc').value.trim();
+                const nombresLimpios = datos.nombresCompletos.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '').substring(0, 20);
+                const cedulaLimpia = datos.cedula.replace(/\s+/g, '_');
                 
-                const nombreArchivo = `Formulario_Transito_${primerApellido}_${tipoDoc}_${numeroDoc}_${fecha.getFullYear()}${String(fecha.getMonth()+1).padStart(2,'0')}${String(fecha.getDate()).padStart(2,'0')}.pdf`;
+                const nombreArchivo = `Contrato_Prenda_${nombresLimpios}_${cedulaLimpia}_${fecha.getFullYear()}${String(fecha.getMonth()+1).padStart(2,'0')}${String(fecha.getDate()).padStart(2,'0')}.pdf`;
                 
-                // 7. Guardar PDF
+                // 8. Guardar PDF
                 pdf.save(nombreArchivo);
                 
-                // 8. Mostrar mensaje de éxito
-                mostrarMensaje(`✅ Documento PDF generado: ${nombreArchivo}`, 'success');
+                // 9. Mostrar mensaje de éxito
+                mostrarMensaje(`✅ Contrato PDF de 2 páginas generado: ${nombreArchivo}`, 'success');
                 
             } catch (error) {
                 console.error('Error al generar PDF:', error);
-                mostrarMensaje('❌ Error al generar el documento PDF', 'error');
+                mostrarMensaje('❌ Error al generar el contrato PDF', 'error');
                 
                 // Método alternativo simple
                 try {
@@ -1136,78 +1159,127 @@
             // Obtener datos
             const datos = actualizarDatosPDF();
             
-            // Título
+            // PÁGINA 1
             pdf.setFontSize(20);
-            pdf.text('FORMULARIO DE TRÁNSITO', 105, 30, { align: 'center' });
+            pdf.text('CONTRATO DE PRENDA SIN TENENCIA', 105, 30, { align: 'center' });
+            pdf.text('PÁGINA 1', 105, 40, { align: 'center' });
             
             // Línea separadora
             pdf.setDrawColor(0, 0, 0);
             pdf.setLineWidth(1);
-            pdf.line(20, 40, 190, 40);
+            pdf.line(20, 50, 190, 50);
             
-            // Datos
-            pdf.setFontSize(16);
-            pdf.text('DATOS DEL PROPIETARIO', 20, 55);
+            // Datos del usuario
+            pdf.setFontSize(14);
+            pdf.text('DATOS DEL DEUDOR PRENDARIO', 20, 65);
             
             pdf.setFontSize(12);
-            let y = 70;
+            let y = 80;
             const lineHeight = 8;
             
-            const campos = [
-                ['Primer Apellido:', datos.primerApellido],
-                ['Segundo Apellido:', datos.segundoApellido],
-                ['Nombres:', datos.nombres],
-                ['Tipo Documento:', datos.tipoDoc],
-                ['Número Documento:', datos.numeroDoc],
+            const camposP1 = [
+                ['Nombres Completos:', datos.nombresCompletos],
+                ['Tipo de Persona:', datos.tipoPersona],
                 ['Dirección:', datos.direccion],
                 ['Ciudad:', datos.ciudad],
-                ['Teléfono:', datos.telefono]
+                ['Email:', datos.email]
             ];
             
-            campos.forEach(([label, value]) => {
+            camposP1.forEach(([label, value]) => {
                 pdf.text(`${label}`, 20, y);
-                pdf.text(`${value}`, 80, y);
+                pdf.text(`${value}`, 70, y);
                 y += lineHeight;
             });
             
-            // Firma y fecha
+            // Mostrar marca de selección para tipo de persona (solo "X") en página 1
             pdf.setFontSize(10);
-            y = 180;
-            pdf.text('Firma del Propietario: _________________________', 20, y);
-            pdf.text('Fecha: ' + new Date().toLocaleDateString(), 150, y);
-            pdf.text('Sistema de Gestión Renault', 105, 195, { align: 'center' });
+            if (datos.tipoPersona === 'A NOMBRE PROPIO') {
+                pdf.text('X', 33, 100); // Marca "X" en posición de "A NOMBRE PROPIO"
+            } else if (datos.tipoPersona === 'REPRESENTANTE LEGAL') {
+                pdf.text('X', 67, 100); // Marca "X" en posición de "REPRESENTANTE LEGAL"
+            }
+            
+            // Texto de ejemplo del contrato
+            y = 140;
+            pdf.setFontSize(10);
+            pdf.text('DÉCIMA.- El presente contrato de prenda sin tenencia que se constituye tiene por objeto', 20, y);
+            pdf.text('garantizar al ACREEDOR PRENDARIO cualquier obligación, que por cualquier concepto', 20, y + 5);
+            pdf.text('tuviere o llegare a contraer EL DEUDOR PRENDARIO a su favor...', 20, y + 10);
+            
+            // Firma página 1
+            pdf.setFontSize(10);
+            pdf.text('Firma del Deudor: _________________________', 20, 260);
+            pdf.text('Fecha: ' + new Date().toLocaleDateString(), 150, 260);
+            pdf.text('Página 1 de 2 - Contrato de Prenda sin Tenencia', 105, 280, { align: 'center' });
+            
+            // PÁGINA 2
+            pdf.addPage();
+            
+            pdf.setFontSize(20);
+            pdf.text('CONTRATO DE PRENDA SIN TENENCIA', 105, 30, { align: 'center' });
+            pdf.text('PÁGINA 2', 105, 40, { align: 'center' });
+            
+            pdf.line(20, 50, 190, 50);
+            
+            // Continuación del contrato
+            pdf.setFontSize(10);
+            y = 70;
+            const textoContrato = [
+                'DÉCIMA PRIMERA.- El término de duración del presente contrato de prenda es de',
+                '10 años contrados desde la fecha de firma del presente documento; sin embargo',
+                'una vez vencido este término, el gravamen (prenda) sobre EL VEHÍCULO',
+                'permanecerá vigente durante todo el tiempo en que EL DEUDOR PRENDARIO',
+                'tenga obligaciones a favor del ACREEDOR PRENDARIO.',
+                '',
+                'DÉCIMA SEGUNDA.- Por el hecho de celebrarse el presente contrato EL ACREEDOR',
+                'PRENDARIO no adquiere obligación alguna de carácter legal, ni de ninguna otra',
+                'clase, de hacer préstamos o desembolsos al DEUDOR PRENDARIO...',
+                '',
+                'DÉCIMA TERCERA.- EL DEUDOR PRENDARIO se obliga a mantener asegurado',
+                'EL VEHÍCULO contra todo riesgo de incendio, hurto y accidentes...'
+            ];
+            
+            textoContrato.forEach(linea => {
+                pdf.text(linea, 20, y);
+                y += 6;
+            });
+            
+            // Mostrar solo la cédula en página 2 (NO "X")
+            pdf.setFontSize(12);
+            pdf.text(`Documento: ${datos.cedula}`, 60, 180);
+            
+            // NOTA: No mostramos "X" en página 2 como solicitaste
+            
+            // Firma página 2
+            pdf.text('Firma del Acreedor: _________________________', 20, 260);
+            pdf.text('Fecha: ' + new Date().toLocaleDateString(), 150, 260);
+            pdf.text('Página 2 de 2 - Sistema de Gestión Renault', 105, 280, { align: 'center' });
             
             // Nombre del archivo
-            const nombreArchivo = `formulario_transito_${Date.now()}.pdf`;
+            const nombreArchivo = `contrato_prenda_simple_${Date.now()}.pdf`;
             pdf.save(nombreArchivo);
             
-            mostrarMensaje('PDF alternativo generado', 'info');
+            mostrarMensaje('Contrato PDF simple generado', 'info');
         }
 
         // INICIALIZAR AL CARGAR LA PÁGINA
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('Formulario de Tránsito - Sistema Renault');
+            console.log('Formulario Contrato Prenda - Sistema Renault');
             
             // Poner foco en el primer campo
-            document.getElementById('inputPrimerApellido').focus();
+            document.getElementById('inputNombresCompletos').focus();
             
-            // Permitir enviar con Enter en el último campo
-            document.getElementById('inputTelefono').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    mostrarConfirmacion();
-                }
+            // Permitir enviar con Enter en cualquier campo
+            document.querySelectorAll('input, select').forEach(element => {
+                element.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        mostrarConfirmacion();
+                    }
+                });
             });
             
-            // Actualizar marcas cuando cambie el tipo de documento
-            document.getElementById('inputTipoDoc').addEventListener('change', function() {
-                if (this.value) {
-                    this.style.borderColor = '#000000';
-                    actualizarMarcasDocumento();
-                }
-            });
-            
-            // Cargar imagen de fondo al inicio
-            cargarImagenFondo();
+            // Cargar imágenes de fondo al inicio
+            cargarImagenesFondo();
             
             // Efecto de enfoque en inputs
             document.querySelectorAll('input, select').forEach(element => {
@@ -1219,6 +1291,9 @@
                     this.style.borderColor = '#e0e0e0';
                 });
             });
+            
+            // Inicializar las marcas de selección
+            actualizarMarcasSeleccion();
         });
     </script>
 </body>

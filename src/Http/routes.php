@@ -42,6 +42,11 @@ $users = \Sitedigitalweb\Usuario\Tenant\Usuario::where('cedula', $id)->get();
 return View::make('renault::mandato')->with('users',$users);
 });
 
+Route::get('renault/prenda/{id}', function ($id) {
+$users = \Sitedigitalweb\Usuario\Tenant\Usuario::where('cedula', $id)->get();
+return View::make('renault::prenda')->with('users',$users);
+});
+
 Route::get('renault/usuarios', function () {
 $users = \Sitedigitalweb\Usuario\Tenant\Usuario::all();
 return View::make('renault::users')->with('users',$users);

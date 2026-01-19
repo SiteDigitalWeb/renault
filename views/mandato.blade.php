@@ -556,7 +556,7 @@
                 @foreach($users as $user)
                 <div class="form-group">
                     <label for="inputPrimerApellido">Nombres y Apellidos:</label>
-                    <input type="text" value="{{ $user->name }} {{ $user->last_name }}" id="inputPrimerApellido" placeholder="Ej: PÉREZ" required>
+                    <input type="text" value="{{ $user->name }} {{ $user->last_name }} {{ $user->last_name_second }}" id="inputPrimerApellido" placeholder="Ej: PÉREZ" required>
                 </div>
 
                 <div class="form-group" style="display: none;">

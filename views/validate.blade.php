@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Validación de Cédula - Renault</title>
+    <title>Validación de Cédula - Renault Plan Rombo</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* ESTILOS GENERALES */
@@ -303,6 +303,7 @@
                 font-size: 1.5rem;
             }
         }
+    .sistema{ color:#000; font-weight: bold }
     </style>
 </head>
 <body>
@@ -311,10 +312,10 @@
         <!-- LOGO Y TÍTULO -->
         <div class="logo-container">
             <div class="logo">
-                <i class="fas fa-file-contract"></i>
+               
             </div>
-            <h1>Sistema de Trámites Renault</h1>
-            <p>Acceso mediante validación por cédula</p>
+             <img src="/images/logo-renault-plan-rombo.png" width="60%">
+            <h2 class="sistema">Sistema de Trámites Renault Plan Rombo</h2>
         </div>
 
         <!-- PANEL DE VALIDACIÓN -->
@@ -396,7 +397,7 @@
 
         <!-- FOOTER -->
         <div class="footer">
-            <p>Sistema de Trámites Renault &copy; {{ date('Y') }} | Acceso Seguro por Validación de Cédula</p>
+            <p>Sistema de Trámites Renault Plan Rombo &copy; {{ date('Y') }} | Acceso Seguro por Validación de Cédula</p>
             <p>Contacto: soporte@renault.com | Tel: 01-800-123-4567</p>
         </div>
     </div>
