@@ -48,7 +48,8 @@
                         {{Form::text('address', '', array('class' => 'form-control','placeholder'=>'Ingrese dirección'))}}
                       
                     </div>
-              
+                    
+
                     
                     <div class="form-group">
                         <label class="form-label">Teléfono Fijo o Célular:</label>
@@ -103,6 +104,11 @@
                   ]) }}
                 </div>
 
+                  <div class="form-group">
+                        <label class="form-label">Suscriptores:</label>
+                        {{Form::number('suscriptores', 1, array('class' => 'form-control','placeholder'=>'Ingrese dirección'))}}
+                      
+                    </div>
 
 
                     <div class="form-group">

@@ -1,11 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\HomeController;
 use Sitedigitalweb\Renault\Entrega;
 use Sitedigitalweb\Renault\Http\AuthController;
 use Sitedigitalweb\Renault\Http\RenaultController;
+use Sitedigitalweb\Renault\Http\DocumentController;
+use Sitedigitalweb\Renault\Http\DocumentReviewController;
 
 Route::get('renault/app', function () {
    return View::make('renault::dashboard');
@@ -33,8 +34,38 @@ Route::post('renault/crear-usuario', 'Sitedigitalweb\Renault\Http\RenaultControl
 
 
 Route::get('renault/registro-transito/{id}', function ($id) {
-$users = \Sitedigitalweb\Usuario\Tenant\Usuario::where('cedula', $id)->get();
-return View::make('renault::pdf')->with('users',$users);
+    // Obtener el usuario por cédula
+    $usuario = \Sitedigitalweb\Usuario\Tenant\Usuario::where('cedula', $id)->first();
+    
+    if (!$usuario) {
+        abort(404, 'Usuario no encontrado');
+    }
+    
+    // Obtener cantidad de suscriptores del campo
+    $cantidadSuscriptores = $usuario->suscriptores ?? 1;
+    
+    // Si el campo está vacío o es 0, usar 1 por defecto
+    if (empty($cantidadSuscriptores) || $cantidadSuscriptores < 1) {
+        $cantidadSuscriptores = 1;
+    }
+    
+    // Limitar a máximo 2 suscriptores (según tu requerimiento)
+    if ($cantidadSuscriptores > 2) {
+        $cantidadSuscriptores = 2;
+    }
+    
+    // Crear array de suscriptores (replicando el mismo usuario)
+    $suscriptores = [];
+    for ($i = 0; $i < $cantidadSuscriptores; $i++) {
+        $suscriptores[] = $usuario;
+    }
+    
+    return View::make('renault::pdf')->with([
+        'users' => [$usuario], // Para mantener compatibilidad con el bucle @foreach
+        'user' => $usuario,    // Para acceder directamente al usuario
+        'suscriptores' => $suscriptores,
+        'cantidadSuscriptores' => $cantidadSuscriptores
+    ]);
 });
 
 Route::get('renault/contrato-mandato/{id}', function ($id) {
@@ -116,4 +147,48 @@ Route::get('/debug/users', function() {
 Route::get('/debug/cedula/{cedula}', function($cedula) {
     $user = \Sitedigitalweb\Renault\User::where('cedula', $cedula)->first();
     dd($user);
+});
+
+
+Route::prefix('renault')
+    ->name('renault.')
+    ->middleware(['auth', 'ensure.docdir'])
+    ->group(function () {
+
+       Route::resource('documents', DocumentController::class);
+    
+    // Ruta para descargar documento
+    Route::get('/documents/{document}/download', [DocumentController::class, 'download'])
+        ->name('documents.download');
+    
+    // Rutas de revisión
+    Route::prefix('documents/{document}/review')->group(function () {
+        Route::get('/', [DocumentReviewController::class, 'review'])->name('documents.review');
+        Route::post('/commentss', [DocumentReviewController::class, 'addComment'])->name('review.add-comment');
+        Route::get('/comments', [DocumentReviewController::class, 'getComments'])->name('review.comments');
+        Route::patch('/comments/{comment}', [DocumentReviewController::class, 'updateCommentStatus'])
+            ->name('review.update-comment-status');
+        Route::post('/complete', [DocumentReviewController::class, 'completeReview'])
+            ->name('review.complete');
+    });
+
+
+
+
+    // Gestión de comentarios para el creador
+    Route::get('/comments', [DocumentCommentController::class, 'index'])
+        ->name('documents.comments');
+    
+    Route::post('/comments/bulk-resolve', [DocumentCommentController::class, 'bulkResolve'])
+        ->name('comments.bulk-resolve');
+    
+    Route::get('/comments/export', [DocumentCommentController::class, 'export'])
+        ->name('comments.export');
+
+
+// API para respuestas
+Route::post('/api/comments/reply', [DocumentCommentController::class, 'reply'])
+    ->name('comments.reply')
+    ->middleware('auth');
+
 });

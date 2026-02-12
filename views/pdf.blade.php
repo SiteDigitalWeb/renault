@@ -79,6 +79,59 @@
             font-size: 0.95rem;
         }
 
+        .badge-suscriptores {
+            background: #000000;
+            color: #ffffff;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        /* CONTENEDOR DE FORMULARIOS EN VERTICAL */
+        .formularios-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            width: 100%;
+            margin-bottom: 30px;
+        }
+
+        .formulario-section {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            border: 2px solid #000000;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .formulario-section h3 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #000000;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #000000;
+        }
+
+        .numero-suscriptor {
+            background: #000000;
+            color: #ffffff;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
         /* BOTÓN VOLVER */
         .btn-volver {
             background: #ffffff;
@@ -103,27 +156,7 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
-        /* FORMULARIO DE DATOS */
-        .formulario-datos {
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 0 0 10px 10px;
-            border: 2px solid #000000;
-            border-top: none;
-            width: 100%;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .formulario-datos h2 {
-            font-size: 1.4rem;
-            color: #000000;
-            margin-bottom: 25px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #000000;
-            font-weight: 600;
-        }
-
+        /* FORM GRID */
         .form-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -174,41 +207,6 @@
             background-position: right 12px center;
             background-size: 16px;
             padding-right: 40px;
-        }
-
-        /* BOTÓN GENERAR PDF */
-        .btn-generar {
-            background: #000000;
-            color: #ffffff;
-            border: 2px solid #000000;
-            padding: 16px 40px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            width: 100%;
-            max-width: 400px;
-            margin: 0 auto;
-        }
-
-        .btn-generar:hover {
-            background: #333333;
-            border-color: #333333;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .btn-generar:disabled {
-            background: #666666;
-            border-color: #666666;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
         }
 
         /* PREVISUALIZACIÓN (oculta) */
@@ -349,6 +347,41 @@
             left: 103mm;
         }
 
+        /* BOTÓN GENERAR PDF */
+        .btn-generar {
+            background: #000000;
+            color: #ffffff;
+            border: 2px solid #000000;
+            padding: 16px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            max-width: 400px;
+            margin: 20px auto 0;
+        }
+
+        .btn-generar:hover {
+            background: #333333;
+            border-color: #333333;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-generar:disabled {
+            background: #666666;
+            border-color: #666666;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
         /* MENSAJES */
         .mensaje {
             position: fixed;
@@ -478,7 +511,7 @@
                 justify-content: center;
             }
             
-            .formulario-datos {
+            .formulario-section {
                 padding: 20px;
             }
             
@@ -625,7 +658,9 @@
                     <i class="fas fa-file-contract"></i>
                 </div>
                 <div class="header-text">
-                    <h1>Formulario de Tránsito</h1>
+                    <h1>Formulario de Tránsito
+                        <span class="badge-suscriptores">{{ $cantidadSuscriptores }} SUSCRIPTORES</span>
+                    </h1>
                     <p>Sistema Renault - Complete los datos y genere el documento oficial</p>
                 </div>
             </div>
@@ -634,68 +669,133 @@
             </a>
         </div>
 
-        <!-- FORMULARIO DE DATOS -->
-        <div class="formulario-datos">
-            <h2>Datos del Propietario</h2>
-            
-            <div class="form-grid">
-                @foreach($users as $user)
-                <div class="form-group">
-                    <label for="inputPrimerApellido">Primer Apellido:</label>
-                    <input type="text" value="{{ $user->last_name }}" id="inputPrimerApellido" placeholder="Ej: PÉREZ" required>
-                </div>
+        <!-- FORMULARIOS EN VERTICAL -->
+        <div class="formularios-wrapper">
+            <!-- SUSCRIPTOR 1 -->
+            <div class="formulario-section">
+                <h3>
+                    <span class="numero-suscriptor">1</span>
+                    Suscriptor 1
+                </h3>
+                
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="inputPrimerApellido">Primer Apellido:</label>
+                        <input type="text" value="{{ $user->last_name ?? '' }}" id="inputPrimerApellido" name="primer_apellido" placeholder="Ej: PÉREZ" required>
+                    </div>
 
-                <div class="form-group">
-                    <label for="inputSegundoApellido">Segundo Apellido:</label>
-                    <input type="text" value="{{ $user->last_name_second }}" id="inputSegundoApellido" placeholder="Ej: GÓMEZ" required>
-                </div>
+                    <div class="form-group">
+                        <label for="inputSegundoApellido">Segundo Apellido:</label>
+                        <input type="text" value="{{ $user->last_name_second ?? '' }}" id="inputSegundoApellido" name="segundo_apellido" placeholder="Ej: GÓMEZ" required>
+                    </div>
 
-                <div class="form-group">
-                    <label for="inputNombres">Nombres:</label>
-                    <input type="text" value="{{ $user->name }}" id="inputNombres" placeholder="Ej: JUAN CARLOS" required>
-                </div>
+                    <div class="form-group">
+                        <label for="inputNombres">Nombres:</label>
+                        <input type="text" value="{{ $user->name ?? '' }}" id="inputNombres" name="nombres" placeholder="Ej: JUAN CARLOS" required>
+                    </div>
 
-                <div class="form-group">
-    <label for="inputTipoDoc">Tipo de Documento:</label>
-    <select id="inputTipoDoc" name="tipo_documento" class="form-control" required onchange="actualizarMarcasDocumento()">
-        <option value="">-- Seleccione un tipo --</option>
-        <option value="C.C." {{ old('tipo_documento', $user->tipo_documento ?? '') == 'C.C.' ? 'selected' : '' }}>Cédula de Ciudadanía (C.C.)</option>
-        <option value="NIT" {{ old('tipo_documento', $user->tipo_documento ?? '') == 'NIT' ? 'selected' : '' }}>Número de Identificación Tributaria (NIT)</option>
-        <option value="N.N" {{ old('tipo_documento', $user->tipo_documento ?? '') == 'N.N' ? 'selected' : '' }}>N.N (No Nombre)</option>
-        <option value="PASAPORTE" {{ old('tipo_documento', $user->tipo_documento ?? '') == 'PASAPORTE' ? 'selected' : '' }}>Pasaporte</option>
-        <option value="C.EXTRANJERIA" {{ old('tipo_documento', $user->tipo_documento ?? '') == 'C.EXTRANJERIA' ? 'selected' : '' }}>Cédula de Extranjería</option>
-        <option value="T.IDENTIDAD" {{ old('tipo_documento', $user->tipo_documento ?? '') == 'T.IDENTIDAD' ? 'selected' : '' }}>Tarjeta de Identidad</option>
-        <option value="NUIP" {{ old('tipo_documento', $user->tipo_documento ?? '') == 'NUIP' ? 'selected' : '' }}>Número Único de Identificación Personal (NUIP)</option>
-        <option value="C.DIPLOMATICO" {{ old('tipo_documento', $user->tipo_documento ?? '') == 'C.DIPLOMATICO' ? 'selected' : '' }}>Carné Diplomático</option>
-    </select>
-</div>
+                    <div class="form-group">
+                        <label for="inputTipoDoc">Tipo de Documento:</label>
+                        <select id="inputTipoDoc" name="tipo_documento" required onchange="actualizarMarcasDocumento(1)">
+                            <option value="">-- Seleccione un tipo --</option>
+                            <option value="C.C." {{ (isset($user->tipo_documento) && $user->tipo_documento == 'C.C.') ? 'selected' : '' }}>Cédula de Ciudadanía (C.C.)</option>
+                            <option value="NIT" {{ (isset($user->tipo_documento) && $user->tipo_documento == 'NIT') ? 'selected' : '' }}>Número de Identificación Tributaria (NIT)</option>
+                            <option value="N.N" {{ (isset($user->tipo_documento) && $user->tipo_documento == 'N.N') ? 'selected' : '' }}>N.N (No Nombre)</option>
+                            <option value="PASAPORTE" {{ (isset($user->tipo_documento) && $user->tipo_documento == 'PASAPORTE') ? 'selected' : '' }}>Pasaporte</option>
+                            <option value="C.EXTRANJERIA" {{ (isset($user->tipo_documento) && $user->tipo_documento == 'C.EXTRANJERIA') ? 'selected' : '' }}>Cédula de Extranjería</option>
+                            <option value="T.IDENTIDAD" {{ (isset($user->tipo_documento) && $user->tipo_documento == 'T.IDENTIDAD') ? 'selected' : '' }}>Tarjeta de Identidad</option>
+                            <option value="NUIP" {{ (isset($user->tipo_documento) && $user->tipo_documento == 'NUIP') ? 'selected' : '' }}>Número Único de Identificación Personal (NUIP)</option>
+                            <option value="C.DIPLOMATICO" {{ (isset($user->tipo_documento) && $user->tipo_documento == 'C.DIPLOMATICO') ? 'selected' : '' }}>Carné Diplomático</option>
+                        </select>
+                    </div>
 
-                <div class="form-group">
-                    <label for="inputNumeroDoc">Número de Documento:</label>
-                    <input type="text" value="{{ $user->cedula }}" id="inputNumeroDoc" placeholder="Ej: 1234567890" required>
-                </div>
+                    <div class="form-group">
+                        <label for="inputNumeroDoc">Número de Documento:</label>
+                        <input type="text" value="{{ $user->cedula ?? '' }}" id="inputNumeroDoc" name="numero_documento" placeholder="Ej: 1234567890" required>
+                    </div>
 
-                <div class="form-group">
-                    <label for="inputDireccion">Dirección:</label>
-                    <input type="text" value="{{ $user->address }}" id="inputDireccion" placeholder="Ej: CRA 10 # 20-30" required>
-                </div>
+                    <div class="form-group">
+                        <label for="inputDireccion">Dirección:</label>
+                        <input type="text" value="{{ $user->address ?? '' }}" id="inputDireccion" name="direccion" placeholder="Ej: CRA 10 # 20-30" required>
+                    </div>
 
-                <div class="form-group">
-                    <label for="inputCiudad">Ciudad:</label>
-                    <input type="text" id="inputCiudad" placeholder="Ej: BOGOTÁ" required>
-                </div>
+                    <div class="form-group">
+                        <label for="inputCiudad">Ciudad:</label>
+                        <input type="text" id="inputCiudad" name="ciudad" placeholder="Ej: BOGOTÁ" required>
+                    </div>
 
-                <div class="form-group">
-                    <label for="inputTelefono">Teléfono:</label>
-                    <input type="text" value="{{ $user->phone }}" id="inputTelefono" placeholder="Ej: 3001234567" required>
+                    <div class="form-group">
+                        <label for="inputTelefono">Teléfono:</label>
+                        <input type="text" value="{{ $user->phone ?? '' }}" id="inputTelefono" name="telefono" placeholder="Ej: 3001234567" required>
+                    </div>
                 </div>
-                @endforeach
+            </div>
+
+            <!-- SUSCRIPTOR 2 (con datos cargados y nombres de campo con _2) -->
+            <div class="formulario-section">
+                <h3>
+                    <span class="numero-suscriptor">2</span>
+                    Suscriptor 2
+                </h3>
+                
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="inputPrimerApellido_2">Primer Apellido:</label>
+                        <input type="text" value="{{ $user->last_name ?? '' }}" id="inputPrimerApellido_2" name="primer_apellido_2" placeholder="Ej: PÉREZ" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputSegundoApellido_2">Segundo Apellido:</label>
+                        <input type="text" value="{{ $user->last_name_second ?? '' }}" id="inputSegundoApellido_2" name="segundo_apellido_2" placeholder="Ej: GÓMEZ" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputNombres_2">Nombres:</label>
+                        <input type="text" value="{{ $user->name ?? '' }}" id="inputNombres_2" name="nombres_2" placeholder="Ej: JUAN CARLOS" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputTipoDoc_2">Tipo de Documento:</label>
+                        <select id="inputTipoDoc_2" name="tipo_documento_2" required onchange="actualizarMarcasDocumento(2)">
+                            <option value="">-- Seleccione un tipo --</option>
+                            <option value="C.C." {{ (isset($user->tipo_documento) && $user->tipo_documento == 'C.C.') ? 'selected' : '' }}>Cédula de Ciudadanía (C.C.)</option>
+                            <option value="NIT" {{ (isset($user->tipo_documento) && $user->tipo_documento == 'NIT') ? 'selected' : '' }}>Número de Identificación Tributaria (NIT)</option>
+                            <option value="N.N" {{ (isset($user->tipo_documento) && $user->tipo_documento == 'N.N') ? 'selected' : '' }}>N.N (No Nombre)</option>
+                            <option value="PASAPORTE" {{ (isset($user->tipo_documento) && $user->tipo_documento == 'PASAPORTE') ? 'selected' : '' }}>Pasaporte</option>
+                            <option value="C.EXTRANJERIA" {{ (isset($user->tipo_documento) && $user->tipo_documento == 'C.EXTRANJERIA') ? 'selected' : '' }}>Cédula de Extranjería</option>
+                            <option value="T.IDENTIDAD" {{ (isset($user->tipo_documento) && $user->tipo_documento == 'T.IDENTIDAD') ? 'selected' : '' }}>Tarjeta de Identidad</option>
+                            <option value="NUIP" {{ (isset($user->tipo_documento) && $user->tipo_documento == 'NUIP') ? 'selected' : '' }}>Número Único de Identificación Personal (NUIP)</option>
+                            <option value="C.DIPLOMATICO" {{ (isset($user->tipo_documento) && $user->tipo_documento == 'C.DIPLOMATICO') ? 'selected' : '' }}>Carné Diplomático</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputNumeroDoc_2">Número de Documento:</label>
+                        <input type="text" value="{{ $user->cedula ?? '' }}" id="inputNumeroDoc_2" name="numero_documento_2" placeholder="Ej: 1234567890" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputDireccion_2">Dirección:</label>
+                        <input type="text" value="{{ $user->address ?? '' }}" id="inputDireccion_2" name="direccion_2" placeholder="Ej: CRA 10 # 20-30" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputCiudad_2">Ciudad:</label>
+                        <input type="text" id="inputCiudad_2" name="ciudad_2" placeholder="Ej: BOGOTÁ" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputTelefono_2">Teléfono:</label>
+                        <input type="text" value="{{ $user->phone ?? '' }}" id="inputTelefono_2" name="telefono_2" placeholder="Ej: 3001234567" required>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- BOTÓN PARA GENERAR PDF -->
         <button class="btn-generar" onclick="mostrarConfirmacion()">
-            <i class="fas fa-file-pdf"></i> Generar Documento PDF
+            <i class="fas fa-file-pdf"></i> 
+            Generar PDF con {{ $cantidadSuscriptores }} formularios
         </button>
 
         <!-- FOOTER -->
@@ -705,28 +805,29 @@
         </div>
     </div>
 
-    <!-- FORMULARIO INVISIBLE PARA LA CONVERSIÓN A PDF -->
-    <div class="form-container" id="formContainer">
+    <!-- FORMULARIOS INVISIBLES PARA LA CONVERSIÓN A PDF -->
+    <!-- Solo el primer suscriptor se replica en PDF -->
+    <div class="form-container" id="formContainer1">
         <div class="datos-container">
-            <!-- DATOS DEL PROPIETARIO -->
-            <div class="dato primer-apellido" id="primerApellido"></div>
-            <div class="dato segundo-apellido" id="segundoApellido"></div>
-            <div class="dato nombres" id="nombres"></div>
-            <div class="dato tipo-doc" id="tipoDoc"></div>
-            <div class="dato numero-doc" id="numeroDoc"></div>
-            <div class="dato direccion" id="direccion"></div>
-            <div class="dato ciudad" id="ciudad"></div>
-            <div class="dato telefono" id="telefono"></div>
+            <!-- DATOS DEL SUSCRIPTOR 1 -->
+            <div class="dato primer-apellido" id="primerApellido1"></div>
+            <div class="dato segundo-apellido" id="segundoApellido1"></div>
+            <div class="dato nombres" id="nombres1"></div>
+            <div class="dato tipo-doc" id="tipoDoc1"></div>
+            <div class="dato numero-doc" id="numeroDoc1"></div>
+            <div class="dato direccion" id="direccion1"></div>
+            <div class="dato ciudad" id="ciudad1"></div>
+            <div class="dato telefono" id="telefono1"></div>
             
             <!-- MARCAS DE X PARA LOS TIPOS DE DOCUMENTO -->
-            <div class="marca-x marca-cc" id="marcaCC" style="display: none;">X</div>
-            <div class="marca-x marca-nit" id="marcaNIT" style="display: none;">X</div>
-            <div class="marca-x marca-nn" id="marcaNN" style="display: none;">X</div>
-            <div class="marca-x marca-pasaporte" id="marcaPasaporte" style="display: none;">X</div>
-            <div class="marca-x marca-extranjeria" id="marcaExtranjeria" style="display: none;">X</div>
-            <div class="marca-x marca-tidentidad" id="marcaTIdentidad" style="display: none;">X</div>
-            <div class="marca-x marca-nuip" id="marcaNUIP" style="display: none;">X</div>
-            <div class="marca-x marca-diplomatico" id="marcaDiplomatico" style="display: none;">X</div>
+            <div class="marca-x marca-cc" id="marcaCC1" style="display: none;">X</div>
+            <div class="marca-x marca-nit" id="marcaNIT1" style="display: none;">X</div>
+            <div class="marca-x marca-nn" id="marcaNN1" style="display: none;">X</div>
+            <div class="marca-x marca-pasaporte" id="marcaPasaporte1" style="display: none;">X</div>
+            <div class="marca-x marca-extranjeria" id="marcaExtranjeria1" style="display: none;">X</div>
+            <div class="marca-x marca-tidentidad" id="marcaTIdentidad1" style="display: none;">X</div>
+            <div class="marca-x marca-nuip" id="marcaNUIP1" style="display: none;">X</div>
+            <div class="marca-x marca-diplomatico" id="marcaDiplomatico1" style="display: none;">X</div>
         </div>
     </div>
 
@@ -734,7 +835,9 @@
     <div class="modal" id="confirmModal">
         <div class="modal-content">
             <h3><i class="fas fa-file-pdf"></i> Confirmar Generación de PDF</h3>
-            <p id="modalMessage">Se generará un documento PDF con los datos ingresados. ¿Desea continuar?</p>
+            <p id="modalMessage">
+                Se generará un PDF con {{ $cantidadSuscriptores }} formularios de suscriptores. ¿Desea continuar?
+            </p>
             <div class="modal-buttons">
                 <button class="modal-btn confirm" onclick="generarPDF()">Sí, Generar PDF</button>
                 <button class="modal-btn cancel" onclick="cerrarModal()">Cancelar</button>
@@ -744,7 +847,8 @@
 
     <script>
         // VARIABLES GLOBALES
-        let imagenCargada = false;
+        let cantidadSuscriptores = {{ $cantidadSuscriptores }};
+        let imagenesCargadas = {};
 
         // FUNCIONES DEL MODAL
         function mostrarConfirmacion() {
@@ -797,10 +901,16 @@
         }
 
         // FUNCIÓN PARA ACTUALIZAR LAS MARCAS DE DOCUMENTO
-        function actualizarMarcasDocumento() {
-            const tipoDocSeleccionado = document.getElementById('inputTipoDoc').value;
+        function actualizarMarcasDocumento(suscriptorNumero) {
+            let tipoDocSeleccionado = '';
             
-            // Ocultar todas las marcas primero
+            if (suscriptorNumero === 1) {
+                tipoDocSeleccionado = document.getElementById('inputTipoDoc').value;
+            } else if (suscriptorNumero === 2) {
+                tipoDocSeleccionado = document.getElementById('inputTipoDoc_2').value;
+            }
+            
+            // Ocultar todas las marcas para este suscriptor
             const todasLasMarcas = [
                 'marcaCC',
                 'marcaNIT',
@@ -812,8 +922,8 @@
                 'marcaDiplomatico'
             ];
             
-            todasLasMarcas.forEach(id => {
-                const elemento = document.getElementById(id);
+            todasLasMarcas.forEach(tipo => {
+                const elemento = document.getElementById(`${tipo}${suscriptorNumero}`);
                 if (elemento) {
                     elemento.style.display = 'none';
                 }
@@ -849,8 +959,8 @@
                     break;
             }
             
-            if (marcaAMostrar) {
-                const elemento = document.getElementById(marcaAMostrar);
+            if (marcaAMostrar && suscriptorNumero === 1) {
+                const elemento = document.getElementById(`${marcaAMostrar}${suscriptorNumero}`);
                 if (elemento) {
                     elemento.style.display = 'block';
                     elemento.textContent = 'X';
@@ -860,13 +970,18 @@
                 }
             }
             
-            // También actualizar el texto del tipo de documento
-            document.getElementById('tipoDoc').textContent = tipoDocSeleccionado;
+            // También actualizar el texto del tipo de documento (solo para suscriptor 1 en PDF)
+            if (suscriptorNumero === 1) {
+                const tipoDocElement = document.getElementById(`tipoDoc${suscriptorNumero}`);
+                if (tipoDocElement) {
+                    tipoDocElement.textContent = tipoDocSeleccionado;
+                }
+            }
         }
 
         // FUNCIÓN PARA CARGAR IMAGEN DE FONDO
-        async function cargarImagenFondo() {
-            if (imagenCargada) return true;
+        async function cargarImagenFondo(formContainerId) {
+            if (imagenesCargadas[formContainerId]) return true;
             
             // Intentar diferentes rutas posibles
             const rutasPosibles = [
@@ -878,7 +993,7 @@
                 'public/transito.png'
             ];
             
-            const formContainer = document.getElementById('formContainer');
+            const formContainer = document.getElementById(formContainerId);
             
             for (const ruta of rutasPosibles) {
                 try {
@@ -903,12 +1018,8 @@
                     
                     if (cargada) {
                         formContainer.insertBefore(imgElement, formContainer.firstChild);
-                        imagenCargada = true;
-                        console.log('✓ Imagen cargada desde:', ruta);
-                        
-                        // Ajustar posiciones después de cargar la imagen
-                        ajustarPosicionesMarcas();
-                        
+                        imagenesCargadas[formContainerId] = true;
+                        console.log('✓ Imagen cargada para:', formContainerId);
                         return true;
                     }
                     
@@ -919,21 +1030,14 @@
             }
             
             // Si ninguna ruta funcionó, crear un fondo de respaldo
-            console.warn('No se pudo cargar ninguna imagen de fondo');
-            crearFondoRespaldo();
-            mostrarMensaje('Usando fondo predeterminado', 'warning');
+            console.warn('No se pudo cargar imagen para:', formContainerId);
+            crearFondoRespaldo(formContainerId);
             return false;
         }
 
-        // FUNCIÓN PARA AJUSTAR POSICIONES DE LAS MARCAS
-        function ajustarPosicionesMarcas() {
-            console.log('Ajustando posiciones de las marcas...');
-            // Aquí puedes ajustar las posiciones si es necesario
-        }
-
         // FUNCIÓN PARA CREAR FONDO DE RESPALDO
-        function crearFondoRespaldo() {
-            const formContainer = document.getElementById('formContainer');
+        function crearFondoRespaldo(formContainerId) {
+            const formContainer = document.getElementById(formContainerId);
             
             const fondoDiv = document.createElement('div');
             fondoDiv.style.cssText = `
@@ -958,43 +1062,59 @@
                     FORMULARIO DE TRÁNSITO
                 </div>
                 <div style="font-size: 16px; text-align: center; color: #666666;">
-                    Sistema Renault - Documento Oficial
+                    Sistema Renault
                 </div>
             `;
             
             formContainer.insertBefore(fondoDiv, formContainer.firstChild);
         }
 
-        // FUNCIÓN PARA ACTUALIZAR LOS DATOS EN EL FORMULARIO INVISIBLE
+        // FUNCIÓN PARA ACTUALIZAR LOS DATOS EN LOS FORMULARIOS INVISIBLES
+        // Solo actualiza el suscriptor 1 para el PDF
         function actualizarDatosPDF() {
-            const datos = {
-                primerApellido: document.getElementById('inputPrimerApellido').value.trim().toUpperCase(),
-                segundoApellido: document.getElementById('inputSegundoApellido').value.trim().toUpperCase(),
-                nombres: document.getElementById('inputNombres').value.trim().toUpperCase(),
-                tipoDoc: document.getElementById('inputTipoDoc').value.trim().toUpperCase(),
-                numeroDoc: document.getElementById('inputNumeroDoc').value.trim(),
-                direccion: document.getElementById('inputDireccion').value.trim().toUpperCase(),
-                ciudad: document.getElementById('inputCiudad').value.trim().toUpperCase(),
-                telefono: document.getElementById('inputTelefono').value.trim()
-            };
-
-            // Actualizar cada campo en el formulario invisible
-            Object.keys(datos).forEach(campo => {
-                const elemento = document.getElementById(campo);
-                if (elemento) {
-                    elemento.textContent = datos[campo] || '';
+            const datosSuscriptores = [];
+            
+            // Solo actualizamos el suscriptor 1 para el PDF
+            for (let i = 1; i <= 1; i++) {
+                let prefijo = '';
+                if (i === 1) {
+                    prefijo = '';
                 }
-            });
+                
+                const datos = {
+                    primerApellido: document.getElementById(`inputPrimerApellido${prefijo}`).value.trim().toUpperCase(),
+                    segundoApellido: document.getElementById(`inputSegundoApellido${prefijo}`).value.trim().toUpperCase(),
+                    nombres: document.getElementById(`inputNombres${prefijo}`).value.trim().toUpperCase(),
+                    tipoDoc: document.getElementById(`inputTipoDoc${prefijo}`).value.trim().toUpperCase(),
+                    numeroDoc: document.getElementById(`inputNumeroDoc${prefijo}`).value.trim(),
+                    direccion: document.getElementById(`inputDireccion${prefijo}`).value.trim().toUpperCase(),
+                    ciudad: document.getElementById(`inputCiudad${prefijo}`).value.trim().toUpperCase(),
+                    telefono: document.getElementById(`inputTelefono${prefijo}`).value.trim()
+                };
 
-            // Actualizar las marcas de documento
-            actualizarMarcasDocumento();
+                // Actualizar cada campo en el formulario invisible
+                Object.keys(datos).forEach(campo => {
+                    const elemento = document.getElementById(`${campo}${i}`);
+                    if (elemento) {
+                        elemento.textContent = datos[campo] || '';
+                    }
+                });
 
-            return datos;
+                // Actualizar las marcas de documento para este suscriptor
+                actualizarMarcasDocumento(i);
+                
+                datosSuscriptores.push(datos);
+            }
+
+            return datosSuscriptores;
         }
 
-        // FUNCIÓN PARA VALIDAR FORMULARIO
+        // FUNCIÓN PARA VALIDAR FORMULARIO (ambos suscriptores)
         function validarFormulario() {
-            const campos = [
+            let todosValidos = true;
+            
+            // Validar suscriptor 1
+            const camposSuscriptor1 = [
                 'inputPrimerApellido',
                 'inputSegundoApellido', 
                 'inputNombres',
@@ -1005,8 +1125,10 @@
                 'inputTelefono'
             ];
 
-            for (const campoId of campos) {
+            for (const campoId of camposSuscriptor1) {
                 const elemento = document.getElementById(campoId);
+                if (!elemento) continue;
+                
                 let valor = '';
                 
                 if (elemento.type === 'select-one') {
@@ -1024,15 +1146,60 @@
                     }, 2000);
                     
                     if (elemento.type === 'select-one') {
-                        mostrarMensaje('Por favor, seleccione el tipo de documento', 'error');
+                        mostrarMensaje(`Suscriptor 1: Por favor, seleccione el tipo de documento`, 'error');
                     } else {
-                        mostrarMensaje('Por favor, complete todos los campos', 'error');
+                        mostrarMensaje(`Suscriptor 1: Por favor, complete todos los campos`, 'error');
                     }
-                    return false;
+                    todosValidos = false;
+                    break;
+                }
+            }
+            
+            if (!todosValidos) return false;
+            
+            // Validar suscriptor 2
+            const camposSuscriptor2 = [
+                'inputPrimerApellido_2',
+                'inputSegundoApellido_2', 
+                'inputNombres_2',
+                'inputTipoDoc_2',
+                'inputNumeroDoc_2',
+                'inputDireccion_2',
+                'inputCiudad_2',
+                'inputTelefono_2'
+            ];
+
+            for (const campoId of camposSuscriptor2) {
+                const elemento = document.getElementById(campoId);
+                if (!elemento) continue;
+                
+                let valor = '';
+                
+                if (elemento.type === 'select-one') {
+                    valor = elemento.value;
+                } else {
+                    valor = elemento.value.trim();
+                }
+                
+                if (!valor) {
+                    elemento.focus();
+                    elemento.style.borderColor = '#cc0000';
+                    
+                    setTimeout(() => {
+                        elemento.style.borderColor = '#e0e0e0';
+                    }, 2000);
+                    
+                    if (elemento.type === 'select-one') {
+                        mostrarMensaje(`Suscriptor 2: Por favor, seleccione el tipo de documento`, 'error');
+                    } else {
+                        mostrarMensaje(`Suscriptor 2: Por favor, complete todos los campos`, 'error');
+                    }
+                    todosValidos = false;
+                    break;
                 }
             }
 
-            return true;
+            return todosValidos;
         }
 
         // FUNCIÓN PRINCIPAL PARA GENERAR PDF
@@ -1048,17 +1215,25 @@
             mostrarLoader(true);
 
             try {
-                // 1. Actualizar datos en el formulario invisible
-                actualizarDatosPDF();
+                // 1. Actualizar datos en el formulario invisible (solo suscriptor 1)
+                const datos = actualizarDatosPDF();
                 
-                // 2. Cargar imagen de fondo
-                await cargarImagenFondo();
+                // 2. Cargar imagen de fondo para el formulario
+                await cargarImagenFondo('formContainer1');
                 
                 // 3. Esperar un momento para que todo se renderice
                 await new Promise(resolve => setTimeout(resolve, 500));
                 
-                // 4. Capturar el formulario como imagen
-                const formulario = document.getElementById('formContainer');
+                // 4. Crear PDF
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF({
+                    orientation: 'landscape',
+                    unit: 'mm',
+                    format: 'a4'
+                });
+                
+                // 5. Capturar y agregar el formulario al PDF (solo suscriptor 1)
+                const formulario = document.getElementById('formContainer1');
                 
                 const canvas = await html2canvas(formulario, {
                     scale: 2,
@@ -1067,14 +1242,6 @@
                     logging: false,
                     width: formulario.offsetWidth,
                     height: formulario.offsetHeight
-                });
-                
-                // 5. Crear PDF
-                const { jsPDF } = window.jspdf;
-                const pdf = new jsPDF({
-                    orientation: 'landscape',
-                    unit: 'mm',
-                    format: 'a4'
                 });
                 
                 const pageWidth = pdf.internal.pageSize.getWidth();
@@ -1099,7 +1266,7 @@
                 const tipoDoc = document.getElementById('inputTipoDoc').value;
                 const numeroDoc = document.getElementById('inputNumeroDoc').value.trim();
                 
-                const nombreArchivo = `Formulario_Transito_${primerApellido}_${tipoDoc}_${numeroDoc}_${fecha.getFullYear()}${String(fecha.getMonth()+1).padStart(2,'0')}${String(fecha.getDate()).padStart(2,'0')}.pdf`;
+                let nombreArchivo = `Formulario_Transito_${primerApellido}_${tipoDoc}_${numeroDoc}_${fecha.getFullYear()}${String(fecha.getMonth()+1).padStart(2,'0')}${String(fecha.getDate()).padStart(2,'0')}.pdf`;
                 
                 // 7. Guardar PDF
                 pdf.save(nombreArchivo);
@@ -1107,16 +1274,12 @@
                 // 8. Mostrar mensaje de éxito
                 mostrarMensaje(`✅ Documento PDF generado: ${nombreArchivo}`, 'success');
                 
+                // 9. Preparar datos para enviar al servidor
+                prepararEnvioDatos();
+                
             } catch (error) {
                 console.error('Error al generar PDF:', error);
                 mostrarMensaje('❌ Error al generar el documento PDF', 'error');
-                
-                // Método alternativo simple
-                try {
-                    await generarPDFSimple();
-                } catch (error2) {
-                    mostrarMensaje('❌ Error crítico al generar el documento', 'error');
-                }
                 
             } finally {
                 // Ocultar loader
@@ -1124,93 +1287,91 @@
             }
         }
 
-        // MÉTODO ALTERNATIVO SIMPLE
-        async function generarPDFSimple() {
-            const { jsPDF } = window.jspdf;
-            const pdf = new jsPDF({
-                orientation: 'portrait',
-                unit: 'mm',
-                format: 'a4'
-            });
+        // FUNCIÓN PARA PREPARAR DATOS PARA ENVIAR AL SERVIDOR
+        function prepararEnvioDatos() {
+            // Recopilar datos de ambos suscriptores
+            const datosFormulario = {
+                suscriptor1: {
+                    primer_apellido: document.getElementById('inputPrimerApellido').value.trim(),
+                    segundo_apellido: document.getElementById('inputSegundoApellido').value.trim(),
+                    nombres: document.getElementById('inputNombres').value.trim(),
+                    tipo_documento: document.getElementById('inputTipoDoc').value,
+                    numero_documento: document.getElementById('inputNumeroDoc').value.trim(),
+                    direccion: document.getElementById('inputDireccion').value.trim(),
+                    ciudad: document.getElementById('inputCiudad').value.trim(),
+                    telefono: document.getElementById('inputTelefono').value.trim()
+                },
+                suscriptor2: {
+                    primer_apellido: document.getElementById('inputPrimerApellido_2').value.trim(),
+                    segundo_apellido: document.getElementById('inputSegundoApellido_2').value.trim(),
+                    nombres: document.getElementById('inputNombres_2').value.trim(),
+                    tipo_documento: document.getElementById('inputTipoDoc_2').value,
+                    numero_documento: document.getElementById('inputNumeroDoc_2').value.trim(),
+                    direccion: document.getElementById('inputDireccion_2').value.trim(),
+                    ciudad: document.getElementById('inputCiudad_2').value.trim(),
+                    telefono: document.getElementById('inputTelefono_2').value.trim()
+                },
+                cantidad_suscriptores: cantidadSuscriptores,
+                fecha_generacion: new Date().toISOString()
+            };
+
+            // Aquí podrías enviar los datos al servidor si es necesario
+            console.log('Datos del formulario listos para enviar:', datosFormulario);
             
-            // Obtener datos
-            const datos = actualizarDatosPDF();
-            
-            // Título
-            pdf.setFontSize(20);
-            pdf.text('FORMULARIO DE TRÁNSITO', 105, 30, { align: 'center' });
-            
-            // Línea separadora
-            pdf.setDrawColor(0, 0, 0);
-            pdf.setLineWidth(1);
-            pdf.line(20, 40, 190, 40);
-            
-            // Datos
-            pdf.setFontSize(16);
-            pdf.text('DATOS DEL PROPIETARIO', 20, 55);
-            
-            pdf.setFontSize(12);
-            let y = 70;
-            const lineHeight = 8;
-            
-            const campos = [
-                ['Primer Apellido:', datos.primerApellido],
-                ['Segundo Apellido:', datos.segundoApellido],
-                ['Nombres:', datos.nombres],
-                ['Tipo Documento:', datos.tipoDoc],
-                ['Número Documento:', datos.numeroDoc],
-                ['Dirección:', datos.direccion],
-                ['Ciudad:', datos.ciudad],
-                ['Teléfono:', datos.telefono]
-            ];
-            
-            campos.forEach(([label, value]) => {
-                pdf.text(`${label}`, 20, y);
-                pdf.text(`${value}`, 80, y);
-                y += lineHeight;
-            });
-            
-            // Firma y fecha
-            pdf.setFontSize(10);
-            y = 180;
-            pdf.text('Firma del Propietario: _________________________', 20, y);
-            pdf.text('Fecha: ' + new Date().toLocaleDateString(), 150, y);
-            pdf.text('Sistema de Gestión Renault', 105, 195, { align: 'center' });
-            
-            // Nombre del archivo
-            const nombreArchivo = `formulario_transito_${Date.now()}.pdf`;
-            pdf.save(nombreArchivo);
-            
-            mostrarMensaje('PDF alternativo generado', 'info');
+            // Ejemplo de cómo enviar los datos (descomentar si necesitas)
+            // fetch('/api/guardar-formulario', {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            //     },
+            //     body: JSON.stringify(datosFormulario)
+            // });
         }
 
         // INICIALIZAR AL CARGAR LA PÁGINA
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', async function() {
             console.log('Formulario de Tránsito - Sistema Renault');
+            console.log(`Cantidad de suscriptores: ${cantidadSuscriptores}`);
             
             // Poner foco en el primer campo
             document.getElementById('inputPrimerApellido').focus();
             
-            // Permitir enviar con Enter en el último campo
-            document.getElementById('inputTelefono').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    mostrarConfirmacion();
-                }
-            });
+            // Configurar eventos para el suscriptor 1
+            const tipoDocElement1 = document.getElementById('inputTipoDoc');
+            if (tipoDocElement1) {
+                tipoDocElement1.addEventListener('change', function() {
+                    if (this.value) {
+                        this.style.borderColor = '#000000';
+                        actualizarMarcasDocumento(1);
+                    }
+                });
+            }
             
-            // Actualizar marcas cuando cambie el tipo de documento
-            document.getElementById('inputTipoDoc').addEventListener('change', function() {
-                if (this.value) {
-                    this.style.borderColor = '#000000';
-                    actualizarMarcasDocumento();
-                }
-            });
+            // Configurar eventos para el suscriptor 2
+            const tipoDocElement2 = document.getElementById('inputTipoDoc_2');
+            if (tipoDocElement2) {
+                tipoDocElement2.addEventListener('change', function() {
+                    if (this.value) {
+                        this.style.borderColor = '#000000';
+                        actualizarMarcasDocumento(2);
+                    }
+                });
+            }
             
-            // Cargar imagen de fondo al inicio
-            cargarImagenFondo();
+            // Permitir enviar con Enter en el último campo del suscriptor 2
+            const telefonoElement2 = document.getElementById('inputTelefono_2');
+            if (telefonoElement2) {
+                telefonoElement2.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        mostrarConfirmacion();
+                    }
+                });
+            }
             
-            // Efecto de enfoque en inputs
-            document.querySelectorAll('input, select').forEach(element => {
+            // Efecto de enfoque en inputs de ambos formularios
+            const inputs = document.querySelectorAll('input, select');
+            inputs.forEach(element => {
                 element.addEventListener('focus', function() {
                     this.style.borderColor = '#000000';
                 });
@@ -1219,6 +1380,14 @@
                     this.style.borderColor = '#e0e0e0';
                 });
             });
+            
+            // Cargar imagen de fondo al inicio
+            await cargarImagenFondo('formContainer1');
+            
+            // Inicializar marcas de documento para el suscriptor 1
+            if (tipoDocElement1 && tipoDocElement1.value) {
+                actualizarMarcasDocumento(1);
+            }
         });
     </script>
 </body>

@@ -1,7 +1,7 @@
 <?php
 
-
 namespace Sitedigitalweb\Renault\Http;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -38,13 +38,13 @@ public function crear(){
  $user->name = Input::get('name');
  $user->last_name = Input::get('last_name');
  $user->last_name_second = Input::get('last_name_second');
- $user->suscriptor = Input::get('suscriptor');
+ $user->suscriptores = Input::get('suscriptores');
  $user->tipo_persona = Input::get('tipo_persona');
  $user->email = Input::get('email');
  $user->address = Input::get('address');
  $user->tipo_documento = Input::get('tipo_documento');
  $user->phone = Input::get('phone');;
- $user->cedula = Input::get('cedula');;
+ $user->cedula = Input::get('cedula');
  $user->rol_id = Input::get('level');
  $user->remember_token = Input::get('_token');
  $user->password = Hash::make($password);
