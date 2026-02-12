@@ -50,7 +50,6 @@ public function store(Request $request)
         'title' => 'required|string|max:255',
         'document' => 'required|mimes:pdf|max:10240',
         'reviewers' => 'required|array',
-        'reviewers.*' => 'exists:users,id'
     ]);
 
     // Directorio en public/saas/documents

@@ -21,7 +21,7 @@
                                class="btn btn-success btn-sm">
                                 <i class="fas fa-download"></i> Descargar
                             </a>
-                            <a href="{{ route('documents.index') }}" class="btn btn-secondary btn-sm">
+                            <a href="{{ route('renault.documents.index') }}" class="btn btn-secondary btn-sm">
                                 <i class="fas fa-arrow-left"></i> Volver
                             </a>
                         </div>
@@ -213,7 +213,7 @@
                     </button>
                     
                     <form id="delete-form-{{ $document->id }}" 
-                          action="{{ route('documents.destroy', $document) }}" 
+                          action="{{ route('renault.documents.destroy', $document) }}" 
                           method="POST" class="d-none">
                         @csrf
                         @method('DELETE')
