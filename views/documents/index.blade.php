@@ -90,7 +90,7 @@
                                     
                                     @if($document->isAssignedTo(auth()->id()) && 
                                         $document->getReviewStatusForUser(auth()->id()) != 'completado')
-                                    <a href="{{ route('documents.review', $document) }}" 
+                                    <a href="{{ route('renault.documents.review', $document) }}" 
                                        class="btn btn-sm btn-warning" title="Revisar">
                                         <i class="fas fa-edit"></i>
                                     </a>
@@ -105,7 +105,7 @@
                                 </div>
                                 
                                 <form id="delete-form-{{ $document->id }}" 
-                                      action="{{ route('documents.destroy', $document) }}" 
+                                      action="{{ route('renault.documents.destroy', $document) }}" 
                                       method="POST" class="d-none">
                                     @csrf
                                     @method('DELETE')
