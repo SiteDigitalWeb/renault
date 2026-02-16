@@ -4,11 +4,6 @@
 
 @section('content')
 {{-- En la sección de acciones --}}
-@if(auth()->user()->id == $document->uploaded_by || auth()->user()->is_admin)
-<a href="{{ route('renault.documents.comments', $document) }}" class="btn btn-info w-100 mb-2">
-    <i class="fas fa-comments"></i> Ver Todos los Comentarios
-</a>
-@endif
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-8">
@@ -211,7 +206,12 @@
                             onclick="confirmDelete({{ $document->id }})">
                         <i class="fas fa-trash"></i> Eliminar Documento
                     </button>
-                    
+
+                    @if(auth()->user()->id == $document->uploaded_by || auth()->user()->is_admin)
+                     <a href="{{ route('renault.documents.review', $document) }}" class="btn btn-info w-100 mt-2">
+                     <i class="fas fa-comments"></i> Ver Todos los Comentarios
+                     </a>
+                    @endif
                     <form id="delete-form-{{ $document->id }}" 
                           action="{{ route('renault.documents.destroy', $document) }}" 
                           method="POST" class="d-none">

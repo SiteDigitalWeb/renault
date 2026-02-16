@@ -95,10 +95,15 @@ public function store(Request $request)
         ->with('success', 'Documento subido y revisores asignados correctamente.');
 }
 
-public function download(Document $document)
+public function download($id) // Cambiar Document $document por $id
 {
-    // TEMPORAL: Comentar autorización
-    // $this->authorize('view', $document);
+    // Buscar el documento manualmente
+    $document = \Sitedigitalweb\Renault\Document::find($id);
+    
+    if (!$document) {
+        \Log::error('Documento no encontrado con ID: ' . $id);
+        abort(404, 'Documento no encontrado');
+    }
     
     // Verificar manualmente
     $user = auth()->user();
@@ -107,7 +112,8 @@ public function download(Document $document)
         'user_id' => $user->id,
         'document_id' => $document->id,
         'uploaded_by' => $document->uploaded_by,
-        'is_admin' => $user->is_admin
+        'is_admin' => $user->is_admin,
+        'file_path' => $document->file_path
     ]);
     
     $canDownload = false;
@@ -134,40 +140,80 @@ public function download(Document $document)
         abort(403, 'No tienes permiso para descargar este documento.');
     }
     
-    // Ruta completa en public/saas/documents
+    // Verificar que el file_path no esté vacío
+    if (empty($document->file_path)) {
+        \Log::error('file_path vacío en la base de datos para documento ID: ' . $document->id);
+        return back()->with('error', 'La ruta del archivo no está definida en la base de datos.');
+    }
+    
+    // Construir la ruta completa
     $filePath = public_path($document->file_path);
     
-    \Log::info('Descargando archivo:', [
-        'document_id' => $document->id,
+    \Log::info('Buscando archivo:', [
         'file_path' => $document->file_path,
-        'full_path' => $filePath,
+        'public_path' => $filePath,
         'exists' => file_exists($filePath)
     ]);
     
+    // Si no existe, buscar en ubicaciones alternativas
     if (!file_exists($filePath)) {
-        \Log::error('Archivo no encontrado: ' . $filePath);
-        return back()->with('error', 'El archivo no existe en: ' . $filePath);
+        $filename = basename($document->file_path);
+        $alternativePaths = [
+            public_path('storage/' . $document->file_path),
+            storage_path('app/public/' . $document->file_path),
+            public_path('saas/documents/' . $filename),
+            storage_path('app/public/saas/documents/' . $filename),
+            public_path('documents/' . $filename)
+        ];
+        
+        $foundPath = null;
+        foreach ($alternativePaths as $path) {
+            if (file_exists($path)) {
+                $foundPath = $path;
+                \Log::info('Archivo encontrado en: ' . $path);
+                break;
+            }
+        }
+        
+        if ($foundPath) {
+            $filePath = $foundPath;
+        } else {
+            \Log::error('Archivo no encontrado en ninguna ubicación');
+            return back()->with('error', 'El archivo no existe en el servidor.');
+        }
     }
     
-    return response()->download($filePath, $document->original_name);
+    return response()->download($filePath, $document->original_name, [
+        'Content-Type' => 'application/pdf',
+        'Content-Disposition' => 'attachment; filename="' . $document->original_name . '"'
+    ]);
 }
-
-public function destroy(Document $document)
+public function destroy($id)
 {
+    // 🔎 Buscar documento manualmente
+    $document = Document::findOrFail($id);
+
+    // 🔐 Autorizar eliminación
     $this->authorize('delete', $document);
-    
-    // Eliminar archivo físico de public/saas/documents
-    $filePath = public_path($document->file_path);
-    
-    if (file_exists($filePath)) {
-        unlink($filePath);
+
+    // 📁 Eliminar archivo físico
+    if ($document->file_path) {
+
+        $filePath = public_path($document->file_path);
+
+        if (file_exists($filePath) && is_file($filePath)) {
+            unlink($filePath);
+        }
     }
-    
+
+    // 🗑 Eliminar registro
     $document->delete();
-    
-    return redirect()->route('documents.index')
+
+    return redirect()
+        ->route('documents.index')
         ->with('success', 'Documento eliminado correctamente.');
 }
+
 
   public function show($id)
 {

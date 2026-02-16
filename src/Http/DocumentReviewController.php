@@ -8,6 +8,10 @@ use Sitedigitalweb\Renault\DocumentReviewer;
 use Sitedigitalweb\Renault\DocumentComment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Hyn\Tenancy\Models\Hostname;
+use Hyn\Tenancy\Models\Website;
+use Hyn\Tenancy\Repositories\HostnameRepository;
+use Hyn\Tenancy\Repositories\WebsiteRepository;
 
 
 class DocumentReviewController extends Controller
@@ -63,83 +67,126 @@ class DocumentReviewController extends Controller
     return view('renault::documents.review', compact('document', 'reviewer'));
 }
 
-    public function addComment(Request $request, Document $document)
-    {
-        $request->validate([
-            'content' => 'required|string',
-            'page_number' => 'required|integer|min:1',
-            'x_position' => 'required|numeric',
-            'y_position' => 'required|numeric',
-            'type' => 'required|in:comment,suggestion,correction'
-        ]);
+   public function addComment(Request $request, $id)
+{
+    // ✅ Validar datos
+    $request->validate([
+        'content' => 'required|string',
+        'page_number' => 'required|integer|min:1',
+        'x_position' => 'required|numeric',
+        'y_position' => 'required|numeric',
+        'type' => 'required|in:comment,suggestion,correction'
+    ]);
 
-        $reviewer = DocumentReviewer::where('document_id', $document->id)
-            ->where('user_id', Auth::id())
-            ->firstOrFail();
+    // 🔎 Buscar documento manualmente
+    $document = Document::findOrFail($id);
 
-        $comment = DocumentComment::create([
-            'document_id' => $document->id,
-            'user_id' => Auth::id(),
-            'reviewer_id' => $reviewer->id,
-            'content' => $request->content,
-            'page_number' => $request->page_number,
-            'x_position' => $request->x_position,
-            'y_position' => $request->y_position,
-            'type' => $request->type,
-            'status' => 'open'
-        ]);
+    // 🔐 Usuario autenticado
+    $userId = auth()->id();
 
-        if ($reviewer->status == 'pendiente') {
-            $reviewer->update(['status' => 'en_progreso']);
-        }
+    // 🔎 Verificar que el usuario sea revisor del documento
+    $reviewer = DocumentReviewer::where('document_id', $document->id)
+        ->where('user_id', $userId)
+        ->firstOrFail();
 
-        return response()->json([
-            'success' => true,
-            'comment' => $comment->load('user')
-        ]);
-    }
+    // ✅ Crear comentario
+    $comment = DocumentComment::create([
+        'document_id' => $document->id,
+        'user_id' => $userId,
+        'reviewer_id' => $reviewer->id,
+        'content' => $request->content,
+        'page_number' => $request->page_number,
+        'x_position' => $request->x_position,
+        'y_position' => $request->y_position,
+        'type' => $request->type,
+        'status' => 'open'
+    ]);
 
-    public function updateCommentStatus(Request $request, DocumentComment $comment)
-    {
-        $request->validate([
-            'status' => 'required|in:open,resolved,closed'
-        ]);
-
-        $updateData = ['status' => $request->status];
-        
-        if ($request->status == 'resolved') {
-            $updateData['resolved_by'] = Auth::id();
-            $updateData['resolved_at'] = now();
-        }
-
-        $comment->update($updateData);
-
-        return response()->json(['success' => true]);
-    }
-
-    public function completeReview(Request $request, Document $document)
-    {
-        $reviewer = DocumentReviewer::where('document_id', $document->id)
-            ->where('user_id', Auth::id())
-            ->firstOrFail();
-
+    // 🔄 Si estaba pendiente → pasa a en_progreso
+    if ($reviewer->status === 'pendiente') {
         $reviewer->update([
-            'status' => 'completado',
-            'comentario_general' => $request->comentario_general,
-            'completed_at' => now()
+            'status' => 'en_progreso'
         ]);
-
-        $pendingReviews = DocumentReviewer::where('document_id', $document->id)
-            ->where('status', '!=', 'completado')
-            ->count();
-
-        if ($pendingReviews == 0) {
-            $document->update(['status' => 'revisado']);
-        }
-
-        return redirect()->route('renault.documents.index')
-            ->with('success', 'Revisión completada correctamente.');
     }
+
+    return response()->json([
+        'success' => true,
+        'comment' => $comment->load('user')
+    ]);
+}
+
+
+ public function updateCommentStatus(Request $request, $id)
+{
+    // ✅ Validar datos
+    $request->validate([
+        'status' => 'required|in:open,resolved,closed'
+    ]);
+
+    // 🔎 Buscar comentario manualmente
+    $comment = DocumentComment::findOrFail($id);
+
+    $updateData = [
+        'status' => $request->status
+    ];
+
+    // 🔄 Si se marca como resuelto
+    if ($request->status === 'resolved') {
+        $updateData['resolved_by'] = auth()->id();
+        $updateData['resolved_at'] = now();
+    }
+
+    $comment->update($updateData);
+
+    return response()->json([
+        'success' => true
+    ]);
+}
+
+
+    public function completeReview(Request $request, $id)
+{
+    // ✅ Validar datos
+    $request->validate([
+        'comentario_general' => 'nullable|string|max:2000',
+    ]);
+
+    // 🔎 Buscar documento manualmente
+    $document = Document::findOrFail($id);
+
+    // 🔐 Obtener usuario autenticado
+    $userId = auth()->id();
+
+    // 🔎 Buscar asignación del revisor
+    $reviewer = DocumentReviewer::where('document_id', $document->id)
+        ->where('user_id', $userId)
+        ->firstOrFail();
+
+    // ✅ Actualizar revisión
+    $reviewer->update([
+        'status' => 'completado',
+        'comentario_general' => $request->comentario_general,
+        'completed_at' => now(),
+    ]);
+
+    // 🔎 Verificar si aún hay revisiones pendientes
+    $hasPendingReviews = DocumentReviewer::where('document_id', $document->id)
+        ->where('status', '!=', 'completado')
+        ->exists();
+
+    // ✅ Si no hay pendientes → marcar documento como revisado
+    if (!$hasPendingReviews) {
+        $document->update([
+            'status' => 'revisado',
+            'reviewed_at' => now(), // opcional
+        ]);
+    }
+
+    return redirect()
+        ->route('renault.documents.index')
+        ->with('success', 'Revisión completada correctamente.');
+}
+
 
     public function getComments($documentId)
 {

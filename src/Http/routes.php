@@ -8,6 +8,9 @@ use Sitedigitalweb\Renault\Http\RenaultController;
 use Sitedigitalweb\Renault\Http\DocumentController;
 use Sitedigitalweb\Renault\Http\DocumentReviewController;
 
+
+
+
 Route::get('renault/app', function () {
    return View::make('renault::dashboard');
 });
@@ -85,6 +88,7 @@ return View::make('renault::users')->with('users',$users);
 
 
 Route::group(['middleware' => ['web']], function (){
+Route::view('renault/login','renault::auth.login');
 Route::get('renault/entrega', function () {
    return View::make('renault::entrega');
 });
@@ -152,7 +156,7 @@ Route::get('/debug/cedula/{cedula}', function($cedula) {
 
 Route::prefix('renault')
     ->name('renault.')
-    ->middleware(['auth', 'ensure.docdir'])
+    ->middleware(['auth', 'ensure.docdir','renault'])
     ->group(function () {
 
        Route::resource('documents', DocumentController::class);
@@ -160,15 +164,35 @@ Route::prefix('renault')
     // Ruta para descargar documento
     Route::get('/documents/{document}/download', [DocumentController::class, 'download'])
         ->name('documents.download');
-    
+
+
+    Route::post(
+    'documents/{id}/complete-review',
+    [DocumentReviewController::class, 'completeReview']
+)->name('renault.review.complete');
+
+   Route::post(
+    'documents/{id}/review/comments',
+    [DocumentReviewController::class, 'addComment']
+)->name('review.add-comment');
+
+
+Route::delete(
+    'documents/{id}',
+    [DocumentController::class, 'destroy']
+)->name('documents.destroy');
+
     // Rutas de revisión
     Route::prefix('documents/{document}/review')->group(function () {
         Route::get('/', [DocumentReviewController::class, 'review'])->name('documents.review');
         Route::post('/commentss', [DocumentReviewController::class, 'addComment'])->name('review.add-comment');
         Route::get('/comments', [DocumentReviewController::class, 'getComments'])->name('review.comments');
-        Route::patch('/comments/{comment}', [DocumentReviewController::class, 'updateCommentStatus'])
-            ->name('review.update-comment-status');
-        Route::post('/complete', [DocumentReviewController::class, 'completeReview'])
+
+        Route::patch(
+    'renault/comments/{id}/status',
+    [DocumentReviewController::class, 'updateCommentStatus']
+)->name('review.update-comment-status');
+Route::post('/complete', [DocumentReviewController::class, 'completeReview'])
             ->name('review.complete');
     });
 
