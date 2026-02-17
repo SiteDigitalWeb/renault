@@ -4,8 +4,8 @@ namespace Sitedigitalweb\Renault;
 
 class Renault
 {
-    public function saludo()
+    public function __invoke()
     {
-        return "Paquete Renault funcionando correctamente";
+        return "Invocado correctamente";
     }
 }
